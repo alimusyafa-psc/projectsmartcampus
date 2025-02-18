@@ -30,10 +30,10 @@
                     <tr>
                         <td>{{ $akses->id_riwayat }}</td>
                         <td>{{ $akses->mahasiswa->nama ?? 'Nama tidak ditemukan' }}</td> <!-- Tampilkan nama mahasiswa -->
-                        <td>{{ $akses->mahasiswa->uid}}</td>
-                        <td>{{ $akses->mahasiswa->id_mahasiswa}}</td>
-                        <td>{{ $akses->mahasiswa->nilai}}</td>
+                        <td>{{ $akses->uid}}</td>
+                        <td>{{ $akses->id_mahasiswa}}</td>
                         <td>{{ $akses->mahasiswa->kelas?? 'Nama tidak ditemukan'}}</td>
+                        <td>{{ $akses->nilai}}</td>
                         <td>{{ $akses->relay }}</td>
                         <td>{{ $akses->waktu_tapping }}</td>
                     </tr>
