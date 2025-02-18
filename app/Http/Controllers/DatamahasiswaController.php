@@ -15,10 +15,12 @@ class DatamahasiswaController extends Controller
         // Kirim data ke view
         return view('datamahasiswa.index', compact('tbmahasiswa'));
     }
+
     public function create()
     {
         return view('datamahasiswa.create');
     }
+    
     public function store(Request $request)
     {
         Datamahasiswa::create([

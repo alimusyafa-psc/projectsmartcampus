@@ -16,7 +16,10 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Mahasiswa</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">uid</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID Mahasiswa</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kelas</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nilai</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Relay</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Waktu akses</th>
                       <th class="text-secondary opacity-7"></th>
@@ -27,6 +30,9 @@
                     <tr>
                         <td>{{ $akses->id_riwayat }}</td>
                         <td>{{ $akses->mahasiswa->nama ?? 'Nama tidak ditemukan' }}</td> <!-- Tampilkan nama mahasiswa -->
+                        <td>{{ $akses->mahasiswa->uid}}</td>
+                        <td>{{ $akses->mahasiswa->id_mahasiswa}}</td>
+                        <td>{{ $akses->mahasiswa->nilai}}</td>
                         <td>{{ $akses->mahasiswa->kelas?? 'Nama tidak ditemukan'}}</td>
                         <td>{{ $akses->relay }}</td>
                         <td>{{ $akses->waktu_tapping }}</td>
