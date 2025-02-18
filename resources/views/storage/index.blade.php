@@ -27,7 +27,7 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3" alt="xd">
+                            <img src="{{ asset('img/raspi.png') }}" class= "me-3"alt="xd" style="width: 100px;">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">Raspberry 1 (Mahasiswa)</h6>
@@ -57,7 +57,7 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3" alt="xd">
+                            <img src="{{ asset('img/raspi.png') }}" class="me-3" alt="xd" style="width: 100px;">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">Raspberry 2 (Tamu)</h6>
