@@ -72,7 +72,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('tamu') ? 'active' : ''}}" href="/tamu">
+          <a class="nav-link {{ in_array(request()->path(), ['tamu','tamu/create']) ? 'active' : '' }}" href="/tamu">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>shop </title>
@@ -92,7 +92,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('mahasiswa') ? 'active' : ''}}" href="/mahasiswa">
+          <a class="nav-link {{ in_array(request()->path(), ['mahasiswa', 'datamahasiswa', 'jadwal','datamahasiswa/create','jadwal/create']) ? 'active' : '' }}" href="/mahasiswa">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>office</title>
@@ -170,13 +170,35 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm">
               @if (request()->is('mahasiswa'))
-              <a class="opacity-5 text-dark" href="#">Mahasiswa</a>
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a>
+              @endif
+              @if (request()->is('datamahasiswa'))
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/mahasiswa/datamahasiswa">Data Mahasiswa</a>
+              @endif
+              @if (request()->is('datamahasiswa/create'))
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/datamahasiswa">Data Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/datamahasiswa/create">Create</a>
+              @endif
+              @if (request()->is('jadwal'))
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/Jadwal">Jadwal</a>
+              @endif
+              @if (request()->is('jadwal/create'))
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/jadwal">Jadwal</a> /
+              <a class="opacity-5 text-dark" href="/jadwal/create">Create</a>
               @endif
               @if (request()->is('tamu'))
-              <a class="opacity-5 text-dark" href="#">Tamu</a>
+              <a class="opacity-5 text-dark" href="/tamu">Tamu</a>
+              @endif
+              @if (request()->is('tamu/create'))
+              <a class="opacity-5 text-dark" href="/tamu">Tamu</a> /
+              <a class="opacity-5 text-dark" href="/tamu/create">Create</a>
               @endif
               @if (request()->is('storage'))
-              <a class="opacity-5 text-dark" href="#">Storage</a>
+              <a class="opacity-5 text-dark" href="/storage">Storage</a>
               @endif
             </li>
           </ol>
