@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\riwayattamu;
+use App\Models\RiwayatTamu;
 use App\Models\Tamu;
 use Illuminate\Http\Request;
-use Termwind\Components\Dd;
 
 class TamusController extends Controller
 {
     public function index()
     {
         $riwayatTamu = RiwayatTamu::with('tamu')
-            ->orderBy('id', 'desc') // Mengurutkan berdasarkan ID terbaru
-            ->paginate(10); // Menggunakan pagination agar tidak memunculkan semua data sekaligus
+            ->orderBy('id', 'desc')
+            ->paginate(10);
     
         return view('tamu.index', compact('riwayatTamu'));
     }
@@ -22,9 +21,10 @@ class TamusController extends Controller
     {
         return view('tamu.create');
     }
+
     public function store(Request $request)
     {
-        $data = $request->all(); // Ambil semua data dari request
+        $data = $request->all();
         $data['last_visit'] = now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s');    
     
         $request->validate([
@@ -41,12 +41,9 @@ class TamusController extends Controller
             'rfid' => $request->rfid,
             'pekerjaan' => $request->pekerjaan,
             'preferences' => $request->preferences,
-            'last_visit' => $data['last_visit'], // Pastikan nilainya ada
+            'last_visit' => $data['last_visit'],
         ]);
 
-        return redirect('/tamu')->with('success','Data Berhasil Ditambahkan.');
+        return redirect('/tamu')->with('success', 'Data Berhasil Ditambahkan.');
     }
-    
-    
-    
 }

@@ -22,6 +22,15 @@
                     <label for="exampleInputEmail1">Password</label>
                     <input name='password' type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
                 </div>
+                <div>
+                  <label for="exampleInputEmail1">Role</label>
+                  <select class="form-select" name="role" aria-label="Default select example">
+                      <option selected disabled>Pilih Peran</option>
+                      <option value="ADMIN">Admin</option>
+                      <option value="TAMU">Admin Tamu</option>
+                      <option value="MAHASISWA">Admin Mahasiswa</option>
+                  </select>                                        
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
         </div>

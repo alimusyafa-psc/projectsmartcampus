@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class LoginController extends Controller
 {
     public function index() 
     {
-        // Ambil semua data dari tabel tbmahasiswa
-        $admin = LoginUser::all();
+        // Redirect authenticated users to /storage
+        if (Auth::check()) {
+            return redirect('/storage');
+        }
 
-        // Kirim data ke view
+        // Show login page for guests
+        $admin = LoginUser::all();
         return view("auth.login", compact('admin'));    
     }
 
@@ -30,11 +32,13 @@ class LoginController extends Controller
             'nama' => 'required',
             'email' => 'required',
             'password' => 'required',
+            'role' => 'required',
         ]);
         LoginUser::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
         return redirect('/sesi/signup')->with('success','Data Berhasil Ditambahkan.');    
@@ -62,6 +66,14 @@ class LoginController extends Controller
         } else {
             return 'gagal';
         }
-        
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/sesi')->with('success', 'Anda telah berhasil logout');
+    }
+    
 }

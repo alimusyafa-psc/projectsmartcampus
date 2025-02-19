@@ -17,4 +17,20 @@ class LoginUser extends Model implements Authenticatable
     protected $guarded = ['id'];
 
     public $timestamps = false;
+
+    // Role checking methods
+    public function isAdmin()
+    {
+        return $this->role === 'ADMIN';
+    }
+
+    public function isTamu()
+    {
+        return $this->role === 'TAMU';
+    }
+
+    public function isMahasiswa()
+    {
+        return $this->role === 'MAHASISWA';
+    }
 }
