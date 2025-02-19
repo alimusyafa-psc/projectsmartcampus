@@ -36,7 +36,7 @@ class IsLogin
     protected function hasAccess($user, ?string $routeName): bool
     {
         $accessRules = [
-            'ADMIN' => ['storage', 'datamahasiswa', 'jadwal','mahasiswa','tamu','register'],
+            'ADMIN' => ['storage', 'datamahasiswa', 'jadwal','mahasiswa','tamu','register','path'],
             'TAMU' => ['storage','tamu','register','path'],
             'MAHASISWA' => ['storage', 'jadwal','datamahasiswa','mahasiswa','register']
         ];

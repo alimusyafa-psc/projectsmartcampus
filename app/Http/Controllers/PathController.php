@@ -37,4 +37,11 @@ class PathController extends Controller
             $videos = VideoPath::all(); // Mengambil semua data tanpa pengurutan
             return view('tamu.path', compact('videos'));
         }
+
+        public function destroy($id)
+        {
+            $videos = VideoPath::find($id);
+            $videos->delete();
+            return redirect('/tamu/path')->with('success','Data Path Berhasil Dihapus.');
+        }
 }

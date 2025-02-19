@@ -93,7 +93,7 @@
           </a>
         </li>
         @endif
-        @if(Auth::user()->role == 'MAHASISWA' || Auth::user()->role == 'admin')
+        @if(Auth::user()->role == 'MAHASISWA' || Auth::user()->role == 'ADMIN')
         <li class="nav-item">
           <a class="nav-link {{ in_array(request()->path(), ['mahasiswa', 'datamahasiswa', 'jadwal','datamahasiswa/create','jadwal/create']) ? 'active' : '' }}" href="/mahasiswa">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">

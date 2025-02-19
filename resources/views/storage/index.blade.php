@@ -17,7 +17,6 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Raspberry Pi</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Total Storage</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Storage Used</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Percentage</th>
                     </tr>
@@ -33,9 +32,6 @@
                             <h6 class="mb-0 text-sm">Raspberry 1 (Mahasiswa)</h6>
                           </div>
                         </div>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">{{ $totalSpaceGB1 }} GB </span>                      
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="text-xs font-weight-bold">{{ $targetFolderSize1 }} </span>                      
@@ -63,9 +59,6 @@
                             <h6 class="mb-0 text-sm">Raspberry 2 (Tamu)</h6>
                           </div>
                         </div>
-                      </td>
-                      <td>
-                        <span class="text-xs font-weight-bold">{{ $totalSpaceGB2 }} GB </span>                      
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="text-xs font-weight-bold">{{ $targetFolderSize2 }} </span>                      

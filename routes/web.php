@@ -28,6 +28,8 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     Route::get('/tamu/path', [\App\Http\Controllers\PathController::class, 'indexPath'])->name('path');
     Route::get('/tamu/path/create', [\App\Http\Controllers\PathController::class, 'createPath'])->name('path');
     Route::post('/tamu/path', [\App\Http\Controllers\PathController::class, 'storePath'])->name('path');
+    Route::delete('/tamu/path/{id}', [\App\Http\Controllers\PathController::class, 'destroy'])->name('path');
+
 
     //MAHASISWA
     Route::get('/mahasiswa', [\App\Http\Controllers\MahasiswasController::class, 'index'])->name('mahasiswa');
