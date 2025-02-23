@@ -115,7 +115,6 @@
           </a>
         </li>
         @endif
-        @if(Auth::user()->role == 'ADMIN')
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
@@ -140,6 +139,7 @@
             <span class="nav-link-text ms-1">Profile</span>
           </a>
         </li>
+        @if(Auth::user()->role == 'ADMIN')
         <li class="nav-item">
           <a class="nav-link {{ request()->is("sesi/signup") ? 'active' : ''}}" href="/sesi/signup">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -214,6 +214,12 @@
               @endif
               @if (request()->is('storage'))
               <a class="opacity-5 text-dark" href="/storage">Storage</a>
+              @endif
+              @if (request()->routeIs('profile'))
+              <a class="opacity-5 text-dark" href="{{ route('profile', Auth::user()->id) }}">Profile</a>
+              @endif
+              @if (request()->is('sesi/signup'))
+              <a class="opacity-5 text-dark" href="/sesi/signup">SignUp</a>
               @endif
             </li>
           </ol>
