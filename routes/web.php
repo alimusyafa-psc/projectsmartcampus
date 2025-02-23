@@ -44,6 +44,11 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     Route::delete('/jadwal/{id_kelas}', [\App\Http\Controllers\JadwalController::class, 'destroy'])->name('jadwal');
     //ADMIN
     Route::get('/storage', [\App\Http\Controllers\StorageController::class, 'index'])->name('storage');
+    //PROFILE
+    Route::get('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::patch('/profile/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    
+
 
     
     // Authentication routes

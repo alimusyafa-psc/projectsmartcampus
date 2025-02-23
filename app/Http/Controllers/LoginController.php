@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LoginPost;
 use App\Models\LoginUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,13 @@ class LoginController extends Controller
             'role' => $request->role,
         ]);
 
+        LoginPost::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
         return redirect('/sesi/signup')->with('success','Data Berhasil Ditambahkan.');    
     }
     
@@ -64,7 +72,7 @@ class LoginController extends Controller
             Auth::login($user);
             return redirect('/storage')->with('success','Sukses Login');
         } else {
-            return 'gagal';
+            return redirect('/sesi');
         }
     }
 

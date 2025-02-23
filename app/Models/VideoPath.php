@@ -9,11 +9,20 @@ class VideoPath extends Model
 {
     use HasFactory;
 
-    protected $connection = 'second_db'; // Menggunakan database kedua
     protected $table = 'videos'; // Nama tabel
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
     
     public $timestamps = false;
+
+    /**
+     * Set koneksi database secara dinamis.
+     */
+    public function setDatabaseConnection($connection)
+    {
+        $this->setConnection($connection);
+        return $this;
+    }
 }
+
 

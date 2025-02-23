@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RiwayatTamu;
 use App\Models\Tamu;
+use App\Models\TamuPost;
 use Illuminate\Http\Request;
 
 class TamusController extends Controller
@@ -36,6 +37,15 @@ class TamusController extends Controller
         ]);
 
         Tamu::create([
+            'name' => $request->name,
+            'asal' => $request->asal,
+            'rfid' => $request->rfid,
+            'pekerjaan' => $request->pekerjaan,
+            'preferences' => $request->preferences,
+            'last_visit' => $data['last_visit'],
+        ]);
+
+        TamuPost::create([
             'name' => $request->name,
             'asal' => $request->asal,
             'rfid' => $request->rfid,
