@@ -26,7 +26,7 @@ class IsLogin
 
         // Cek akses berdasarkan role
         if (!$this->hasAccess($user, $routeName)) {
-            return redirect('/storage')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+            return redirect('/storage')->with('error', 'Anda tidak memiliki akses ke halaman');
         }
 
         return $next($request);

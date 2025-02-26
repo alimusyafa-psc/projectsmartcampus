@@ -83,6 +83,11 @@
     <section>
       <div class="page-header min-vh-75">
         <div class="container">
+          @if (session()->has('error'))
+          <div class="alert alert-danger">
+            {{ session('error') }}
+          </div>
+          @endif
           <div class="row">
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">

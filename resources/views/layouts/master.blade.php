@@ -176,50 +176,50 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm">
               @if (request()->is('mahasiswa'))
-              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a>
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a>
               @endif
               @if (request()->is('datamahasiswa'))
-              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
               <a class="opacity-5 text-dark" href="/mahasiswa/datamahasiswa">Data Mahasiswa</a>
               @endif
               @if (request()->is('datamahasiswa/create'))
-              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
               <a class="opacity-5 text-dark" href="/datamahasiswa">Data Mahasiswa</a> /
               <a class="opacity-5 text-dark" href="/datamahasiswa/create">Create</a>
               @endif
               @if (request()->is('jadwal'))
-              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
               <a class="opacity-5 text-dark" href="/Jadwal">Jadwal</a>
               @endif
               @if (request()->is('jadwal/create'))
-              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa</a> /
-              <a class="opacity-5 text-dark" href="/jadwal">Jadwal</a> /
-              <a class="opacity-5 text-dark" href="/jadwal/create">Create</a>
+              <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
+              <a class="opacity-5 text-dark" href="/jadwal">Jadwal </a> /
+              <a class="opacity-5 text-dark" href="/jadwal/create">Create </a>
               @endif
               @if (request()->is('tamu'))
-              <a class="opacity-5 text-dark" href="/tamu">Tamu</a>
+              <a class="opacity-5 text-dark" href="/tamu">Tamu </a>
               @endif
               @if (request()->is('tamu/path'))
-              <a class="opacity-5 text-dark" href="/tamu">Tamu</a>/
+              <a class="opacity-5 text-dark" href="/tamu">Tamu </a>/
               <a class="opacity-5 text-dark" href="/tamu/path">Path</a>
               @endif
               @if (request()->is('tamu/path/create'))
-              <a class="opacity-5 text-dark" href="/tamu">Tamu</a>/
-              <a class="opacity-5 text-dark" href="/tamu/path">Path</a>/
-              <a class="opacity-5 text-dark" href="/tamu/path/create">create</a>
+              <a class="opacity-5 text-dark" href="/tamu">Tamu </a>/
+              <a class="opacity-5 text-dark" href="/tamu/path">Path </a>/
+              <a class="opacity-5 text-dark" href="/tamu/path/create">create </a>
               @endif
               @if (request()->is('tamu/create'))
-              <a class="opacity-5 text-dark" href="/tamu">Tamu</a> /
-              <a class="opacity-5 text-dark" href="/tamu/create">Create</a>
+              <a class="opacity-5 text-dark" href="/tamu">Tamu </a> /
+              <a class="opacity-5 text-dark" href="/tamu/create">Create </a>
               @endif
               @if (request()->is('storage'))
-              <a class="opacity-5 text-dark" href="/storage">Storage</a>
+              <a class="opacity-5 text-dark" href="/storage">Storage </a>
               @endif
               @if (request()->routeIs('profile'))
-              <a class="opacity-5 text-dark" href="{{ route('profile', Auth::user()->id) }}">Profile</a>
+              <a class="opacity-5 text-dark" href="{{ route('profile', Auth::user()->id) }}">Profile </a>
               @endif
               @if (request()->is('sesi/signup'))
-              <a class="opacity-5 text-dark" href="/sesi/signup">SignUp</a>
+              <a class="opacity-5 text-dark" href="/sesi/signup">SignUp </a>
               @endif
             </li>
           </ol>
@@ -244,6 +244,13 @@
       <div class="row">
         <div class="col-12">
           <div class="alert alert-success">{{ session('success') }}</div>
+        </div>
+      </div>
+      @endif
+      @if (session()->has('error'))
+      <div class="row">
+        <div class="col-12">
+          <div class="alert alert-danger">{{ session('error') }}</div>
         </div>
       </div>
       @endif
