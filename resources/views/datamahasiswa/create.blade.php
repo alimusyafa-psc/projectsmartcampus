@@ -43,10 +43,16 @@
                         @error('uid') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
 
+                    <div class="mb-2">
+                        <label for="relay" class="form-label fw-semibold">Relay</label>
+                        <input name="relay" type="text" class="form-control @error('relay') is-invalid @enderror" id="relay" placeholder="Tempelkan Kartu ke RFID Reader">
+                        @error('relay') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                    </div>
+                    
                     <div class="mb-4">
-                        <label for="departemen" class="form-label fw-semibold">Departemen</label>
-                        <input name="departemen" type="text" class="form-control @error('departemen') is-invalid @enderror" id="departemen" placeholder="ex: Teknik Elektro">
-                        @error('departemen') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                        <label for="Departemen" class="form-label fw-semibold">Departemen</label>
+                        <input name="Departemen" type="text" class="form-control @error('Departemen') is-invalid @enderror" id="Departemen" placeholder="ex: Teknik Elektro">
+                        @error('Departemen') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="d-grid">

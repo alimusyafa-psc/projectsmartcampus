@@ -180,7 +180,7 @@
               @endif
               @if (request()->is('datamahasiswa'))
               <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
-              <a class="opacity-5 text-dark" href="/mahasiswa/datamahasiswa">Data Mahasiswa</a>
+              <a class="opacity-5 text-dark" href="/datamahasiswa">Data Mahasiswa</a>
               @endif
               @if (request()->is('datamahasiswa/create'))
               <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
@@ -189,7 +189,7 @@
               @endif
               @if (request()->is('jadwal'))
               <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /
-              <a class="opacity-5 text-dark" href="/Jadwal">Jadwal</a>
+              <a class="opacity-5 text-dark" href="/jadwal">Jadwal</a>
               @endif
               @if (request()->is('jadwal/create'))
               <a class="opacity-5 text-dark" href="/mahasiswa">Mahasiswa </a> /

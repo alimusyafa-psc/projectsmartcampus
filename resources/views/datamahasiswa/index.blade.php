@@ -19,19 +19,21 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Mahasiswa</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NRP</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kelas</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Relay</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($tbmahasiswa as $tbmahasiswa)
+                    @foreach ($tbmahasiswa as $mahasiswa)
                     <tr>
-                        <td>{{ $tbmahasiswa->uid }}</td>
-                        <td>{{ $tbmahasiswa->nama }}</td> <!-- Tampilkan nama mahasiswa -->
-                        <td>{{ $tbmahasiswa->nrp}}</td>
-                        <td>{{ $tbmahasiswa->kelas }}</td>
+                        <td>{{ $mahasiswa->uid }}</td>
+                        <td>{{ $mahasiswa->nama }}</td>
+                        <td>{{ $mahasiswa->nrp }}</td>
+                        <td>{{ $mahasiswa->kelas }}</td>
+                        <td>{{ $mahasiswa->relay->relay ?? 'Tidak ada relay' }}</td>
                         <td>
-                          <form action="/datamahasiswa/{{ $tbmahasiswa->id_mahasiswa }}" method="POST">
+                          <form action="/datamahasiswa/{{ $mahasiswa->id_mahasiswa }}" method="POST">
                             @method("DELETE")
                             @csrf
                             <input type="submit" class="btn btn-danger" value="Delete">
