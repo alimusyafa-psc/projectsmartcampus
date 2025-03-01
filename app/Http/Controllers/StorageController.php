@@ -16,7 +16,7 @@ class StorageController extends Controller
         $totalSpaceBytes2 = disk_total_space('/');
         $freeSpaceBytes2 = disk_free_space('/');
         $usedSpaceBytes2 = $totalSpaceBytes2 - $freeSpaceBytes2;
-
+        
         $targetFolder1 = 'C:\laragon\www\smartcampus'; // Replace with actual folder path
         $targetFolder2 = 'C:\laragon\www\smartcampus-master'; // Replace with actual folder path
 
