@@ -165,17 +165,6 @@
         @endif
       </ul>
     </div>
-    <footer class="footer py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mb-4 mx-auto text-center">
-            <a href="/branding" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-              Smart Campus Member
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
   </aside>
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
