@@ -165,7 +165,19 @@
         @endif
       </ul>
     </div>
+    <footer class="footer py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mb-4 mx-auto text-center">
+            <a href="/branding" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+              Smart Campus Member
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </aside>
+
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
@@ -255,18 +267,6 @@
       </div>
       @endif
         @yield('content')
-      <footer class="footer pt-3  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-            </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   </main>
   <div class="fixed-plugin">

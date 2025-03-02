@@ -9,7 +9,10 @@ class MahasiswasController extends Controller
 {
     public function index()
     {
-        $riwayatAkses = RiwayatAkses::with('mahasiswa')->get();
+        $riwayatAkses = RiwayatAkses::with('mahasiswa')
+            ->orderBy('id_riwayat', 'desc')
+            ->paginate(10);
+    
         return view('mahasiswa.index', compact('riwayatAkses'));
     }
 

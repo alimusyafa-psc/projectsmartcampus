@@ -12,6 +12,10 @@ Route::post('/logout', [\App\Http\Controllers\LoginController::class, 'logout'])
 Route::middleware('guest')->group(function() {
     Route::get('/sesi', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
     Route::post('/sesi/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login.post');
+    Route::get('/branding', function () {
+        return view('layouts.branding'); // Perhatikan path 'layout.profiles'
+    });
+    
 });
 
 // Protected routes (require authentication)

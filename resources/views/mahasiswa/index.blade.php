@@ -40,6 +40,9 @@
                     @endforeach
                   </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-3">
+                  {{ $riwayatAkses->links('pagination::bootstrap-5') }}
+                </div>  
               </div>
             </div>
           </div>
