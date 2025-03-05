@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LoginPost;
 use App\Models\LoginUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,13 +35,6 @@ class LoginController extends Controller
             'role' => 'required',
         ]);
         LoginUser::create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        LoginPost::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
