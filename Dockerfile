@@ -1,7 +1,10 @@
 FROM php:8.3-fpm
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
+# Set Workdir
+WORKDIR /var/www/html
+
+# Install dependencies secara efisien
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
     curl \
@@ -11,23 +14,36 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
     zip \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-install gd pdo pdo_mysql mbstring zip
+    nano \
+    mariadb-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
+# Install Composer dari image resmi untuk mempercepat proses
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set workdir
-WORKDIR /var/www/html
-
-# Copy Laravel files
+# Copy Laravel project (tanpa vendor agar ringan)
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
 
-# Expose port
+# Beri izin eksekusi ke entrypoint
+RUN chmod +x /entrypoint.sh
+
+# Install dependencies dengan cache agar lebih cepat
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+# Expose PHP-FPM Port
 EXPOSE 9000
 
-CMD ["php-fpm"]
+# Healthcheck untuk memastikan PHP-FPM berjalan
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD curl -f http://localhost:9000/status || exit 1
+
+# Gunakan entrypoint untuk mengatur izin file
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Jalankan PHP-FPM setelah entrypoint dijalankan
+CMD ["php-fpm", "-R"]
