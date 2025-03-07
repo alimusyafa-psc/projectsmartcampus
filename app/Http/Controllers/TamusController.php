@@ -45,14 +45,14 @@ class TamusController extends Controller
             'last_visit' => $data['last_visit'],
         ]);
 
-        TamuPost::create([
-            'name' => $request->name,
-            'asal' => $request->asal,
-            'rfid' => $request->rfid,
-            'pekerjaan' => $request->pekerjaan,
-            'preferences' => $request->preferences,
-            'last_visit' => $data['last_visit'],
-        ]);
+        // TamuPost::create([
+        //     'name' => $request->name,
+        //     'asal' => $request->asal,
+        //     'rfid' => $request->rfid,
+        //     'pekerjaan' => $request->pekerjaan,
+        //     'preferences' => $request->preferences,
+        //     'last_visit' => $data['last_visit'],
+        // ]);
 
         return redirect('/tamu')->with('success', 'Data Berhasil Ditambahkan.');
     }
