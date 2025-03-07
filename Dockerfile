@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer dari image resmi untuk mempercepat proses
+# Install Composer dari image resmi
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy Laravel project (tanpa vendor agar ringan)
@@ -35,6 +35,9 @@ RUN chmod +x /entrypoint.sh
 # Install dependencies dengan cache agar lebih cepat
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress
 
+# Pastikan vendor dan cache memiliki izin
+RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
+
 # Expose PHP-FPM Port
 EXPOSE 9000
 
@@ -44,6 +47,4 @@ HEALTHCHECK --interval=30s --timeout=3s \
 
 # Gunakan entrypoint untuk mengatur izin file
 ENTRYPOINT ["/entrypoint.sh"]
-
-# Jalankan PHP-FPM setelah entrypoint dijalankan
 CMD ["php-fpm", "-R"]

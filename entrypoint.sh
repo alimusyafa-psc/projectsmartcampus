@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e  # Hentikan eksekusi jika ada error
 
 # Set permission untuk storage dan bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
@@ -12,4 +13,4 @@ chmod -R 775 /var/www/html/storage/logs
 chmod 664 /var/www/html/storage/logs/laravel.log
 
 # Jalankan perintah utama container
-exec "$@"
+exec "$@"
