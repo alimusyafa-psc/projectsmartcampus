@@ -9,6 +9,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "predis/predis": "^2.3",
         "promphp/prometheus_client_php": "^2.14"
     },
     "require-dev": {

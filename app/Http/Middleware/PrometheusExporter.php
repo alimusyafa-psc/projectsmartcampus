@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Prometheus\CollectorRegistry;
 use Prometheus\RenderTextFormat;
-use Prometheus\Storage\InMemory;
+use Prometheus\Storage\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
 class PrometheusExporter
@@ -15,12 +15,16 @@ class PrometheusExporter
 
     public function __construct()
     {
-        $this->registry = new CollectorRegistry(new InMemory());
+        $redisAdapter = new Redis([
+            'host' => 'redis',
+            'port' => 6379,
+        ]);
+
+        $this->registry = new CollectorRegistry($redisAdapter);
     }
 
     public function handle(Request $request, Closure $next)
     {
-        // Register metrics
         $requestCounter = $this->registry->getOrRegisterCounter('app', 'http_requests_total', 'Total number of requests', ['method', 'route', 'status_code']);
         $requestDuration = $this->registry->getOrRegisterHistogram('app', 'http_request_duration_seconds', 'Request duration', ['method', 'route'], [0.1, 0.5, 1, 5]);
 
@@ -31,7 +35,6 @@ class PrometheusExporter
 
         $duration = microtime(true) - $start;
 
-        // Collect metrics
         $requestCounter->inc([$request->method(), $request->path(), $response->getStatusCode()]);
         $requestDuration->observe($duration, [$request->method(), $request->path()]);
 
