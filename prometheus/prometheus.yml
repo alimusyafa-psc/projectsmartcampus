@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "laravel_app"
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["app:8000"] # Menggunakan service name 'app' sesuai dengan docker-compose.yml
+
