@@ -18,8 +18,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
-    php-redis\
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Install Composer dari image resmi
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
