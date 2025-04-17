@@ -55,7 +55,7 @@ services:
     prometheus:
         image: prom/prometheus:latest
         container_name: prometheus
-        platform: linux/arm64 # Gunakan ini jika kamu menggunakan ARM (Raspberry Pi)
+        #  platform: linux/arm64 # Gunakan ini jika kamu menggunakan ARM (Raspberry Pi)
         volumes:
             - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
         ports:
