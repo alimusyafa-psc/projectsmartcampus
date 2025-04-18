@@ -14,6 +14,8 @@ services:
             - .env
         networks:
             - laravel_network
+        ports:
+            - "9000:9000"
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost/status"]
             interval: 30s
