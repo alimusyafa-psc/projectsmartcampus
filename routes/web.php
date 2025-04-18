@@ -10,6 +10,10 @@ use App\Http\Middleware\PrometheusExporter;
 
 //     return response($metrics)->header('Content-Type', \Prometheus\RenderTextFormat::MIME_TYPE);
 // });
+Route::get('/status', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 Route::get('/metrics', [PrometheusExporter::class, 'exportMetrics']);
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
