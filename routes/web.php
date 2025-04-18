@@ -3,7 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\PrometheusExporter;
+Route::get('/metrics', function () {
+    $prometheus = app(\Prometheus\CollectorRegistry::class);
+    $renderer = new \Prometheus\RenderTextFormat();
+    $metrics = $renderer->render($prometheus->getMetricFamilySamples());
 
+    return response($metrics)->header('Content-Type', \Prometheus\RenderTextFormat::MIME_TYPE);
+});
 Route::get('/metrics', [PrometheusExporter::class, 'exportMetrics']);
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
