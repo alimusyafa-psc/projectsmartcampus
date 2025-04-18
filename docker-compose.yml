@@ -33,6 +33,17 @@ services:
             - app
         networks:
             - laravel_network
+    nginx_exporter:
+        image: nginx/nginx-prometheus-exporter:latest
+        container_name: nginx_exporter
+        ports:
+            - "9113:9113"
+        command:
+            - "--nginx.scrape-uri=http://laravel_nginx/nginx_status"
+        depends_on:
+            - nginx
+        networks:
+            - laravel_network
 
     redis:
         image: redis:latest
