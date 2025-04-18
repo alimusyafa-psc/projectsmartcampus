@@ -22,6 +22,7 @@ services:
 
     nginx:
         image: nginx:latest
+        platform: linux/arm64 # ← tambahkan ini jika pakai Raspberry Pi / ARM
         container_name: laravel_nginx
         restart: unless-stopped
         ports:
@@ -45,6 +46,8 @@ services:
     redis_exporter:
         image: oliver006/redis_exporter
         container_name: redis_exporter
+        depends_on:
+            - redis # ← tambahkan ini
         environment:
             - REDIS_ADDR=redis:6379
         ports:
