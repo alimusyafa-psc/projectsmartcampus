@@ -1,4 +1,4 @@
-FROM  php:8.3-fpm
+FROM php:8.3-fpm
 
 # Set Workdir
 WORKDIR /var/www/html
@@ -22,23 +22,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Install Composer dari image resmi
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy Laravel project (tanpa vendor agar ringan)
+# Salin Laravel project (tanpa vendor agar ringan)
 COPY . .
 
-# Copy entrypoint script
+# Salin entrypoint.sh ke dalam container dan beri izin eksekusi
 COPY entrypoint.sh /entrypoint.sh
-
-# Beri izin eksekusi ke entrypoint
 RUN chmod +x /entrypoint.sh
 
-# Install dependencies dengan cache agar lebih cepat
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --no-interaction --no-progress
+# Install dependencies dengan Composer
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Pastikan vendor dan cache memiliki izin
+# Pastikan vendor dan cache memiliki izin yang benar
 RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
 
 # Expose PHP-FPM Port
