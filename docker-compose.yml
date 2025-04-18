@@ -1,3 +1,5 @@
+version: "3.7"
+
 services:
     app:
         build:
@@ -7,9 +9,9 @@ services:
         restart: unless-stopped
         working_dir: /var/www/html
         volumes:
-            - .:/var/www/html:delegated # Volume untuk Laravel project
-            - /var/www/html/vendor # Pastikan vendor ada di container
-            - /var/www/html/node_modules # Untuk Node.js jika ada
+            - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
         env_file:
             - .env
         networks:
@@ -27,21 +29,22 @@ services:
         ports:
             - "8081:80"
         volumes:
-            - .:/var/www/html:delegated # Mount Laravel project ke Nginx
-            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf # Konfigurasi Nginx
+            - .:/var/www/html:delegated
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
         networks:
             - laravel_network
+
     nginx_exporter:
-        image: nginx/nginx-prometheus-exporter:latest
+        image: nginx/nginx-prometheus-exporter
         container_name: nginx_exporter
         ports:
             - "9113:9113"
-        command:
-            - "--nginx.scrape-uri=http://laravel_nginx:8081/nginx_status"
-        depends_on:
-            - nginx
+        volumes:
+            - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        environment:
+            - NGINX_STATUS_URI=/status
         networks:
             - laravel_network
 
