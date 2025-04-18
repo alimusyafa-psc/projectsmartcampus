@@ -39,7 +39,7 @@ services:
         ports:
             - "9113:9113"
         command:
-            - "--nginx.scrape-uri=http://laravel_nginx/nginx_status"
+            - "--nginx.scrape-uri=http://laravel_nginx:8081/nginx_status"
         depends_on:
             - nginx
         networks:
