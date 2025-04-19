@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\PrometheusExporter;
-use Spatie\Prometheus\Facades\Prometheus;
-Route::get('/prometheus', function () {
+use Spatie\Prometheus\Facades\Prometheus;Route::get('/prometheus', function () {
     $prometheus = app(\Prometheus\CollectorRegistry::class);
     $renderer = new \Prometheus\RenderTextFormat();
     $metrics = $renderer->render($prometheus->getMetricFamilySamples());
@@ -13,7 +12,6 @@ Route::get('/prometheus', function () {
 });
 
 Route::get('/metrics', [PrometheusExporter::class, 'exportMetrics']);
-// Route::get('/metrics1', MetricsController::class)->withoutMiddleware(['web', 'auth', 'throttle']);
 
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
