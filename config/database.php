@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Str;
-
+use Prometheus\CollectorRegistry;
+use Prometheus\Storage\Redis;
 return [
 
     /*
