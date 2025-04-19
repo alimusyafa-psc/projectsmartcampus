@@ -15,15 +15,16 @@ use Spatie\Prometheus\Facades\Prometheus;
 
 class PrometheusServiceProvider extends ServiceProvider
 {
+
     public function register()
     {
         /*
          * Here you can register all the exporters that you
          * want to export to Prometheus.
          */
-        Prometheus::addGauge('user_count', function () {
-            return User::count();
-        });
+        // Prometheus::addGauge('user_count', function () {
+        //     return User::count();
+        // });
 
         /*
          * Uncomment this line if you want to export
