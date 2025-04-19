@@ -12,6 +12,7 @@ use Spatie\Prometheus\Collectors\Horizon\JobsPerMinuteCollector;
 use Spatie\Prometheus\Collectors\Horizon\RecentJobsCollector;
 use Spatie\Prometheus\Facades\Prometheus;
 
+
 class PrometheusServiceProvider extends ServiceProvider
 {
     public function register()
@@ -33,6 +34,7 @@ class PrometheusServiceProvider extends ServiceProvider
 
     public function registerHorizonCollectors(): self
     {
+        
         Prometheus::registerCollectorClasses([
             CurrentMasterSupervisorCollector::class,
             CurrentProcessesPerQueueCollector::class,
@@ -41,6 +43,7 @@ class PrometheusServiceProvider extends ServiceProvider
             HorizonStatusCollector::class,
             JobsPerMinuteCollector::class,
             RecentJobsCollector::class,
+            
         ]);
 
         return $this;

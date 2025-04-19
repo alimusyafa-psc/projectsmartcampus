@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Spatie\Prometheus\Facades\Prometheus;
+
 
 define('LARAVEL_START', microtime(true));
 
