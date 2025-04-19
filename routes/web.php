@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\PrometheusExporter;
-use Spatie\Prometheus\Facades\Prometheus;Route::get('/prometheus', function () {
+use Spatie\Prometheus\Facades\Prometheus;
+Route::get('/prometheus', function () {
     $prometheus = app(\Prometheus\CollectorRegistry::class);
     $renderer = new \Prometheus\RenderTextFormat();
     $metrics = $renderer->render($prometheus->getMetricFamilySamples());
