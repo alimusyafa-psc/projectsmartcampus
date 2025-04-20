@@ -42,7 +42,7 @@ services:
         ports:
             - "9113:9113"
         command:
-            - "./nginx-prometheus-exporter -nginx.scrape-uri=http://nginx:8081/status"
+            - "-nginx.scrape-uri=http://nginx/status"
         depends_on:
             - nginx
         volumes:
