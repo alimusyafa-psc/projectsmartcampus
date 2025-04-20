@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\PrometheusExporter;
+use App\Http\Controllers\Metrics\MetricsController;
 
-
-Route::get('/metrics', [PrometheusExporter::class, 'exportMetrics']);
+Route::get('/metrics', [MetricsController::class, 'index']);
 
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
