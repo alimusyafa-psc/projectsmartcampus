@@ -124,8 +124,7 @@ services:
         ports:
             - "9113:9113"
         command:
-            - "/nginx_exporter"
-            - "-nginx.scrape-uri=http://nginx:8080/status"
+            - "--nginx.scrape-uri=http://nginx:8080/status" # Perbaikan flag format
         depends_on:
             - nginx
         volumes:
