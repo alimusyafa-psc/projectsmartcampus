@@ -4,23 +4,26 @@ FROM php:8.2-fpm
 WORKDIR /var/www/html
 
 # Install dependencies secara efisien
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        git \
-        unzip \
-        curl \
-        zip \
-        nano \
-        mariadb-client \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    unzip \
+    curl \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \
+    libzip-dev \
+    zip \
+    nano \
+    mariadb-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer dari image resmi
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer dengan curl (menghindari penggunaan multi-stage build)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Salin Laravel project (tanpa vendor agar ringan)
 COPY . .
