@@ -1,8 +1,5 @@
 FROM php:8.2-fpm
 
-# Set Workdir
-WORKDIR /var/www/html
-
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -16,13 +13,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     zip \
     nano \
-    mariadb-client
+    mariadb-client \
+    pkg-config \
+    libtool \
+    autoconf \
+    gcc \
+    make
 
-# Install GD library dependencies
-RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
-
-# Configure GD extension with FreeType and JPEG support
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+# Install GD extension with FreeType and JPEG support
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include
 
 # Install PHP extensions
 RUN docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
