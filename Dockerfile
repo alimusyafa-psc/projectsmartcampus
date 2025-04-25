@@ -3,7 +3,7 @@ FROM php:8.2-fpm
 # Set Workdir
 WORKDIR /var/www/html
 
-# Install dependencies secara efisien
+# Update apt-get and install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
@@ -16,36 +16,42 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     zip \
     nano \
-    mariadb-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    mariadb-client
 
-# Install Composer dengan curl (menghindari penggunaan multi-stage build)
+# Configure and install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
+
+# Install Redis extension
+RUN pecl install redis
+RUN docker-php-ext-enable redis
+
+# Clean up apt cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Salin Laravel project (tanpa vendor agar ringan)
+# Copy Laravel project
 COPY . .
 
-# Salin entrypoint.sh ke dalam container dan beri izin eksekusi
+# Copy entrypoint.sh
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Install dependencies dengan Composer
+# Install Composer dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Pastikan vendor dan cache memiliki izin yang benar
+# Set proper permissions
 RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
 
-# Expose PHP-FPM Port
+# Expose PHP-FPM port
 EXPOSE 9000
 
-# Healthcheck untuk memastikan PHP-FPM berjalan
+# Healthcheck to ensure PHP-FPM is running
 HEALTHCHECK --interval=30s --timeout=3s \
     CMD curl -f http://localhost:9000/status || exit 1
 
-# Gunakan entrypoint untuk mengatur izin file
+# Use entrypoint for file permissions setup
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
