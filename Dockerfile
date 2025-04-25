@@ -1,9 +1,10 @@
+# Use the official PHP 8.2 FPM image as a base image
 FROM php:8.2-fpm
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /var/www/html
 
-# Install dependencies efficiently
+# Install required system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
@@ -22,29 +23,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer from official image
+# Install Composer from the official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy Laravel project (excluding vendor to keep the image light)
+# Copy the Laravel project files into the container
 COPY . .
 
-# Copy entrypoint.sh into the container and make it executable
+# Copy the entrypoint.sh script into the container and make it executable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Install dependencies with Composer
+# Install Laravel dependencies using Composer
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Set correct permissions for vendor and cache directories
+# Set the correct permissions for the vendor and cache directories
 RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
 
-# Expose PHP-FPM Port
+# Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Healthcheck to ensure PHP-FPM is running
+# Define a healthcheck to ensure PHP-FPM is running
 HEALTHCHECK --interval=30s --timeout=3s \
     CMD curl -f http://localhost:9000/status || exit 1
 
-# Set entrypoint for file permissions
+# Set the entrypoint for file permissions and run PHP-FPM
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
