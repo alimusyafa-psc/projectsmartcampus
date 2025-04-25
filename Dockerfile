@@ -3,14 +3,14 @@ FROM php:8.2-fpm
 # Set Workdir
 WORKDIR /var/www/html
 
-# Update apt-get and install dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
     curl \
     libpq-dev \
     libpng-dev \
-    libjpeg-dev \
+    libjpeg62-turbo-dev \
     libfreetype6-dev \
     libonig-dev \
     libzip-dev \
@@ -18,8 +18,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     mariadb-client
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+# Ensure the PHP source directory exists and configure PHP extensions
+RUN mkdir -p /usr/src/php && docker-php-ext-configure gd --with-freetype --with-jpeg
+
+# Install PHP extensions
 RUN docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
 
 # Install Redis extension
