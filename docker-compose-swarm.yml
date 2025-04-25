@@ -1,0 +1,58 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 3 # Menjalankan 3 replica Laravel app
+      mode: replicated
+      endpoint_mode: dnsrr # Gunakan DNS untuk load balancing di Swarm
+    restart_policy:
+      condition: any
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html:delegated # Pastikan volume ini sesuai untuk Swarm
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
+    env_file:
+      - .env # Pastikan file .env sudah ada
+    networks:
+      - laravel_network
+    ports:
+      - target: 9000
+        published: 9000
+        protocol: tcp
+        mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/status"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  redis:
+    image: redis:latest
+    deploy:
+      replicas: 1 # Redis hanya satu replica
+    networks:
+      - laravel_network
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      retries: 3
+
+  redis_exporter:
+    image: oliver006/redis_exporter
+    depends_on:
+      - redis
+    environment:
+      - REDIS_ADDR=redis:6379
+    ports:
+      - "9121:9121"
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: overlay # Gunakan overlay untuk komunikasi antar node Swarm
