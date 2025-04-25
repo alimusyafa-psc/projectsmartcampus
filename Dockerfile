@@ -9,11 +9,6 @@ RUN apt-get update \
         git \
         unzip \
         curl \
-        libpng-dev \
-        libjpeg-dev \
-        libfreetype6-dev \
-        libonig-dev \
-        libzip-dev \
         zip \
         nano \
         mariadb-client \
