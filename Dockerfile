@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
     curl \
+    libpq-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
