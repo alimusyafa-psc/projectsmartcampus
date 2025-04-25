@@ -18,8 +18,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nano \
     mariadb-client
 
-# Ensure the PHP source directory exists and configure PHP extensions
-RUN mkdir -p /usr/src/php && docker-php-ext-configure gd --with-freetype --with-jpeg
+# Install GD library dependencies
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+
+# Configure GD extension with FreeType and JPEG support
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 # Install PHP extensions
 RUN docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
