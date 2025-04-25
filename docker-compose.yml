@@ -73,17 +73,15 @@
 # networks:
 #     laravel_network:
 #         driver: bridge
-version: "3.8"
 
 services:
-    app:
+    app1:
         build:
             context: .
             dockerfile: Dockerfile
         deploy:
-            replicas: 3
-            # Hapus bagian restart dan healthcheck karena sudah ditangani oleh Swarm
-        container_name: laravel_app
+            replicas: 1
+        container_name: laravel_app1
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
@@ -95,7 +93,43 @@ services:
             - laravel_network
         ports:
             - "9000:9000"
+
+    app2:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        deploy:
+            replicas: 1
+        container_name: laravel_app2
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
+        env_file:
+            - .env
+        networks:
+            - laravel_network
+        ports:
             - "9001:9001"
+
+    app3:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        deploy:
+            replicas: 1
+        container_name: laravel_app3
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
+        env_file:
+            - .env
+        networks:
+            - laravel_network
+        ports:
             - "9002:9002"
 
     redis:
