@@ -151,6 +151,9 @@ services:
         container_name: redis
         ports:
             - "6379:6379"
+        volumes:
+            - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+        command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
         networks:
             - laravel_network
 
@@ -188,7 +191,7 @@ services:
             timeout: 3s
             retries: 3
 
-    loadbalancer_exporter:
+    lb_exporter:
         image: nginx/nginx-prometheus-exporter:latest
         container_name: lb_exporter
         depends_on:
@@ -199,6 +202,8 @@ services:
             - "9113:9113"
         networks:
             - laravel_network
+        extra_hosts:
+            - "nginx_lb:host.docker.internal"
 
 networks:
     laravel_network:
