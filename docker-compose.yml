@@ -202,8 +202,6 @@ services:
             - "9113:9113"
         networks:
             - laravel_network
-        extra_hosts:
-            - "nginx_lb:host.docker.internal"
 
 networks:
     laravel_network:
