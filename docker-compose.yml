@@ -167,10 +167,10 @@ services:
             - laravel_network
 
     nginx_lb:
-        build:
-            context: ./nginx
-            dockerfile: Dockerfile
+        image: nginx:latest
         container_name: nginx_load_balancer
+        restart: unless-stopped
+
         ports:
             - "80:8080" # Akses aplikasi via load balancer
             - "81:8090" # Status monitoring
