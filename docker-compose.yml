@@ -1,7 +1,7 @@
 services:
     app1:
         build:
-            context: .
+            context: ./app
             dockerfile: Dockerfile
         container_name: laravel_app1
         working_dir: /var/www/html
@@ -18,7 +18,7 @@ services:
 
     app2:
         build:
-            context: .
+            context: ./app
             dockerfile: Dockerfile
         container_name: laravel_app2
         working_dir: /var/www/html
@@ -35,7 +35,7 @@ services:
 
     app3:
         build:
-            context: .
+            context: ./app
             dockerfile: Dockerfile
         container_name: laravel_app3
         working_dir: /var/www/html
