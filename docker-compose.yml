@@ -84,9 +84,9 @@ services:
             - "8082:8082"
             - "8083:8083"
         depends_on:
-            - laravel_app1
-            - laravel_app2
-            - laravel_app3
+            - app1
+            - app2
+            - app3
         networks:
             - laravel_network
 
