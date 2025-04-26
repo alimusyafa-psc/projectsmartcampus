@@ -170,13 +170,12 @@ services:
         image: nginx:latest
         container_name: nginx_load_balancer
         restart: unless-stopped
-
         ports:
-            - "80:8080" # Akses aplikasi via load balancer
-            - "81:8090" # Status monitoring
+            - "8080:8080" # Akses aplikasi via load balancer
+            - "8090:8090" # Status monitoring
         volumes:
             - .:/var/www/html:delegated
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf # Perbaikan path
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf # Path ke nginx.conf yang benar
         depends_on:
             - app1
             - app2
