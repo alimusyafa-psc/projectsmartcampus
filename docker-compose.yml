@@ -6,15 +6,15 @@ services:
         container_name: laravel_app1
         working_dir: /var/www/html
         volumes:
-            - .:/var/www/html:delegated
+            - ./app:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
             - .env
-        networks:
-            - laravel_network
         ports:
             - "9000:9000"
+        networks:
+            - laravel_network
 
     app2:
         build:
@@ -23,15 +23,15 @@ services:
         container_name: laravel_app2
         working_dir: /var/www/html
         volumes:
-            - .:/var/www/html:delegated
+            - ./app:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
             - .env
-        networks:
-            - laravel_network
         ports:
             - "9001:9001"
+        networks:
+            - laravel_network
 
     app3:
         build:
@@ -40,15 +40,15 @@ services:
         container_name: laravel_app3
         working_dir: /var/www/html
         volumes:
-            - .:/var/www/html:delegated
+            - ./app:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
             - .env
-        networks:
-            - laravel_network
         ports:
             - "9002:9002"
+        networks:
+            - laravel_network
 
     redis:
         image: redis:latest
@@ -75,7 +75,7 @@ services:
         container_name: nginx
         restart: unless-stopped
         volumes:
-            - .:/var/www/html:delegated
+            - ./app:/var/www/html:delegated
             - ./nginx:/etc/nginx/conf.d
         ports:
             - "8081:80"
