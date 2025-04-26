@@ -23,9 +23,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN set -ex && \
     for lib in libssl libcrypto libbrotlicommon libbrotlidec libbrotlienc; do \
         rm -f /lib/aarch64-linux-gnu/${lib}.so || true; \
-        real=$(find /lib/aarch64-linux-gnu/ -name "${lib}.so.*" | sort -V | tail -n1); \
-        [ -n "$real" ] && ln -s "$real" "/lib/aarch64-linux-gnu/${lib}.so"; \
+        real=$(find /lib/aarch64-linux-gnu/ -name "${lib}.so.*" | sort -V | tail -n1 || true); \
+        if [ -n "$real" ] && [ -f "$real" ]; then \
+            ln -s "$real" "/lib/aarch64-linux-gnu/${lib}.so"; \
+        else \
+            echo "Library $lib not found, skipping symlink"; \
+        fi; \
     done
+
 
 # Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
