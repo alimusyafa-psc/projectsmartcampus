@@ -1,12 +1,12 @@
 services:
     app1:
         build:
-            context: ./app
+            context: .
             dockerfile: Dockerfile
         container_name: laravel_app1
         working_dir: /var/www/html
         volumes:
-            - ./app:/var/www/html:delegated
+            - .:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
@@ -23,7 +23,7 @@ services:
         container_name: laravel_app2
         working_dir: /var/www/html
         volumes:
-            - ./app:/var/www/html:delegated
+            - .:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
@@ -35,12 +35,12 @@ services:
 
     app3:
         build:
-            context: ./app
+            context: .
             dockerfile: Dockerfile
         container_name: laravel_app3
         working_dir: /var/www/html
         volumes:
-            - ./app:/var/www/html:delegated
+            - .:/var/www/html:delegated
             - /var/www/html/vendor
             - /var/www/html/node_modules
         env_file:
