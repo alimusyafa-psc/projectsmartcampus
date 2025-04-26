@@ -93,6 +93,7 @@
 # networks:
 #     laravel_network:
 #         driver: bridge
+
 services:
     app1:
         build:
@@ -102,8 +103,6 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
@@ -119,8 +118,6 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
@@ -136,8 +133,6 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
@@ -157,11 +152,6 @@ services:
         command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
         networks:
             - laravel_network
-        healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
-            interval: 30s
-            timeout: 3s
-            retries: 3
 
     redis_exporter:
         image: bitnami/redis-exporter:latest
@@ -191,11 +181,6 @@ services:
             - app3
         networks:
             - laravel_network
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:8080"]
-            interval: 30s
-            timeout: 3s
-            retries: 3
 
     lb_exporter:
         image: nginx/nginx-prometheus-exporter:latest
