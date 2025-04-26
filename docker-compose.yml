@@ -18,7 +18,7 @@ services:
 
     app2:
         build:
-            context: ./app
+            context: .
             dockerfile: Dockerfile
         container_name: laravel_app2
         working_dir: /var/www/html
