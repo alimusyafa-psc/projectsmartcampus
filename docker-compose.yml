@@ -16,77 +16,77 @@ services:
         networks:
             - laravel_network
 
-    app2:
-        build:
-            context: ./app
-            dockerfile: Dockerfile
-        container_name: laravel_app2
-        working_dir: /var/www/html
-        volumes:
-            - ./app:/var/www/html:delegated
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
-        env_file:
-            - .env
-        ports:
-            - "9001:9001"
-        networks:
-            - laravel_network
+        app2:
+            build:
+                context: ./app
+                dockerfile: Dockerfile
+            container_name: laravel_app2
+            working_dir: /var/www/html
+            volumes:
+                - ./app:/var/www/html:delegated
+                - /var/www/html/vendor
+                - /var/www/html/node_modules
+            env_file:
+                - .env
+            ports:
+                - "9001:9001"
+            networks:
+                - laravel_network
 
-    app3:
-        build:
-            context: ./app
-            dockerfile: Dockerfile
-        container_name: laravel_app3
-        working_dir: /var/www/html
-        volumes:
-            - ./app:/var/www/html:delegated
-            - /var/www/html/vendor
-            - /var/www/html/node_modules
-        env_file:
-            - .env
-        ports:
-            - "9002:9002"
-        networks:
-            - laravel_network
+        app3:
+            build:
+                context: ./app
+                dockerfile: Dockerfile
+            container_name: laravel_app3
+            working_dir: /var/www/html
+            volumes:
+                - ./app:/var/www/html:delegated
+                - /var/www/html/vendor
+                - /var/www/html/node_modules
+            env_file:
+                - .env
+            ports:
+                - "9002:9002"
+            networks:
+                - laravel_network
 
-    redis:
-        image: redis:latest
-        container_name: redis
-        ports:
-            - "6379:6379"
-        networks:
-            - laravel_network
+        redis:
+            image: redis:latest
+            container_name: redis
+            ports:
+                - "6379:6379"
+            networks:
+                - laravel_network
 
-    redis_exporter:
-        image: oliver006/redis_exporter
-        container_name: redis_exporter
-        depends_on:
-            - redis
-        environment:
-            - REDIS_ADDR=redis:6379
-        ports:
-            - "9121:9121"
-        networks:
-            - laravel_network
+        redis_exporter:
+            image: oliver006/redis_exporter
+            container_name: redis_exporter
+            depends_on:
+                - redis
+            environment:
+                - REDIS_ADDR=redis:6379
+            ports:
+                - "9121:9121"
+            networks:
+                - laravel_network
 
-    nginx:
-        image: nginx:latest
-        container_name: nginx
-        restart: unless-stopped
-        volumes:
-            - ./app:/var/www/html:delegated
-            - ./nginx:/etc/nginx/conf.d
-        ports:
-            - "8081:80"
-            - "8082:81"
-            - "8083:82"
-        depends_on:
-            - app1
-            - app2
-            - app3
-        networks:
-            - laravel_network
+        nginx:
+            image: nginx:latest
+            container_name: nginx
+            restart: unless-stopped
+            volumes:
+                - ./app:/var/www/html:delegated
+                - ./nginx:/etc/nginx/conf.d
+            ports:
+                - "8081:80"
+                - "8082:81"
+                - "8083:82"
+            depends_on:
+                - app1
+                - app2
+                - app3
+            networks:
+                - laravel_network
 
 networks:
     laravel_network:
