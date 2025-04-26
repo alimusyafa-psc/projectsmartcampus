@@ -2,8 +2,6 @@ FROM php:8.2-fpm
 
 # Set work directory
 WORKDIR /var/www/html
-
-# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
@@ -16,13 +14,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     zip \
     nano \
-    mariadb-client \
-    && apt-get clean
+    mariadb-client && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Pastikan direktori php-src ada
-RUN mkdir -p /usr/src/php/ext && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/freetype2 --with-jpeg-dir=/usr/include && \
-    docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
 
 # Install Redis extension
 RUN pecl install redis && \
