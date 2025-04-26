@@ -153,6 +153,8 @@ services:
             - "6379:6379"
         volumes:
             - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+            - redis_data:/var/lib/redis # Volume untuk data Redis
+            - redis-pid:/var/run/redis # Volume untuk file PID
         command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
         networks:
             - laravel_network
@@ -174,7 +176,7 @@ services:
         container_name: nginx_load_balancer
         restart: unless-stopped
         ports:
-            - "8080:8080" # Akses aplikasi via load balancer
+            - "8080:80" # Akses aplikasi via load balancer
             - "8090:8090" # Status monitoring
         volumes:
             - .:/var/www/html:delegated
@@ -202,6 +204,10 @@ services:
             - "9113:9113"
         networks:
             - laravel_network
+
+volumes:
+    redis_data: # Volume untuk Redis, memastikan data Redis tidak hilang
+        driver: local
 
 networks:
     laravel_network:
