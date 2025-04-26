@@ -16,40 +16,39 @@ services:
         networks:
             - laravel_network
 
-        app2:
-            build:
-                context: ./app
-                dockerfile: Dockerfile
-            container_name: laravel_app2
-            working_dir: /var/www/html
-            volumes:
-                - ./app:/var/www/html:delegated
-                - /var/www/html/vendor
-                - /var/www/html/node_modules
-            env_file:
-                - .env
-            ports:
-                - "9001:9001"
-            networks:
-                - laravel_network
+    app2:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        container_name: laravel_app2
+        working_dir: /var/www/html
+        volumes:
+            - ./app:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
+        env_file:
+            - .env
+        ports:
+            - "9000:9000"
+        networks:
+            - laravel_network
 
-        app3:
-            build:
-                context: ./app
-                dockerfile: Dockerfile
-            container_name: laravel_app3
-            working_dir: /var/www/html
-            volumes:
-                - ./app:/var/www/html:delegated
-                - /var/www/html/vendor
-                - /var/www/html/node_modules
-            env_file:
-                - .env
-            ports:
-                - "9002:9002"
-            networks:
-                - laravel_network
-
+    app3:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        container_name: laravel_app3
+        working_dir: /var/www/html
+        volumes:
+            - ./app:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
+        env_file:
+            - .env
+        ports:
+            - "9000:9000"
+        networks:
+            - laravel_network
         redis:
             image: redis:latest
             container_name: redis
