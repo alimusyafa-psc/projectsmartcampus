@@ -4,7 +4,8 @@ set -e  # Hentikan eksekusi jika ada error
 # Set permission untuk storage dan bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
+chown -R www-data:www-data /var/www/html/public
+chmod -R 755 /var/www/html/public
 # Pastikan storage/logs ada
 mkdir -p /var/www/html/storage/logs
 touch /var/www/html/storage/logs/laravel.log
