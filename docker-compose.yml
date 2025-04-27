@@ -103,6 +103,8 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
@@ -118,6 +120,8 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
@@ -133,6 +137,8 @@ services:
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html:delegated
+            - /var/www/html/vendor
+            - /var/www/html/node_modules
         env_file:
             - .env
         ports:
