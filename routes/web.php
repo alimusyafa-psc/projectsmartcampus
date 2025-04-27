@@ -43,8 +43,8 @@ Route::middleware('guest')->group(function() {
 Route::middleware(['auth', 'isLogin'])->group(function() {
 
     // AUTH ROUTES
-    Route::get('/sesi/signup', [LoginController::class, 'create'])->name('register');
-    Route::post('/sesi', [LoginController::class, 'store'])->name('register');
+    Route::get('/sesi/signup', [LoginController::class, 'create'])->name('signup'); // Changed from 'register' to 'signup'
+    Route::post('/sesi', [LoginController::class, 'store'])->name('signup.post'); // Changed from 'register' to 'signup.post'
 
     // TAMU ROUTES
     Route::prefix('tamu')->group(function() {
