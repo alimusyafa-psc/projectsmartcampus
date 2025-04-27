@@ -66,7 +66,6 @@
 # ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["php-fpm", "-R"]
 
-
 FROM php:8.2-fpm-bullseye
 
 # Set working directory
@@ -88,7 +87,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Fix .so files that are empty (for ARM architectures sometimes)
+# Fix .so files (ARM)
 RUN set -ex && \
     for lib in libssl libcrypto libbrotlicommon libbrotlidec libbrotlienc; do \
         rm -f /lib/aarch64-linux-gnu/${lib}.so || true; \
@@ -110,14 +109,11 @@ RUN pecl install redis && docker-php-ext-enable redis
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy composer files and artisan (needed for composer install)
-COPY composer.json composer.lock artisan ./
-
-# Install PHP dependencies
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
-
-# Copy the rest of the application
+# ✅ Copy ALL project files first
 COPY . .
+
+# ✅ THEN install composer dependencies
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
 # Copy entrypoint script and set permission
 COPY entrypoint.sh /entrypoint.sh
@@ -132,10 +128,10 @@ RUN chown -R www-data:www-data /var/www/html && \
 # Expose PHP-FPM port
 EXPOSE 9000
 
-# Healthcheck to make sure PHP-FPM is up
+# Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD php-fpm -t || exit 1
 
-# Set entrypoint and default command
+# Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
