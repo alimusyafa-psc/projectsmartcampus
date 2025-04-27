@@ -67,7 +67,6 @@
 # CMD ["php-fpm", "-R"]
 
 
-
 FROM php:8.2-fpm-bullseye
 
 # Set working directory
@@ -111,16 +110,16 @@ RUN pecl install redis && docker-php-ext-enable redis
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy only composer files first (to leverage docker layer cache)
-COPY composer.json composer.lock ./
+# Copy composer files and artisan (needed for composer install)
+COPY composer.json composer.lock artisan ./
 
 # Install PHP dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Copy the entire application
+# Copy the rest of the application
 COPY . .
 
-# Copy entrypoint script and give permissions
+# Copy entrypoint script and set permission
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
@@ -137,6 +136,6 @@ EXPOSE 9000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD php-fpm -t || exit 1
 
-# Set entrypoint
+# Set entrypoint and default command
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
