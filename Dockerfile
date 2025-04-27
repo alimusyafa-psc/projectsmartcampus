@@ -1,13 +1,67 @@
-FROM php:8.2-fpm
+# FROM php:8.2-fpm
 
-# Set Workdir
+# # Set Workdir
+# WORKDIR /var/www/html
+
+# # Install dependencies secara efisien
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     git \
+#     unzip \
+#     curl \
+#     libpng-dev \
+#     libjpeg-dev \
+#     libfreetype6-dev \
+#     libonig-dev \
+#     libzip-dev \
+#     zip \
+#     nano \
+#     mariadb-client \
+#     && docker-php-ext-configure gd --with-freetype --with-jpeg \
+#     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
+#     && pecl install redis \
+#     && docker-php-ext-enable redis \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# # Install Composer dari image resmi
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# # Salin Laravel project (tanpa vendor agar ringan)
+# COPY . .
+
+# # Salin entrypoint.sh ke dalam container dan beri izin eksekusi
+# COPY entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+
+# # Install dependencies dengan Composer
+# RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+# # Pastikan vendor dan cache memiliki izin yang benar
+# RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
+
+# # Expose PHP-FPM Port
+# EXPOSE 9000
+
+# # Healthcheck untuk memastikan PHP-FPM berjalan
+# HEALTHCHECK --interval=30s --timeout=3s \
+#     CMD curl -f http://localhost:9000/status || exit 1
+
+# # Gunakan entrypoint untuk mengatur izin file
+# ENTRYPOINT ["/entrypoint.sh"]
+# CMD ["php-fpm", "-R"]
+
+
+
+FROM php:8.2-fpm-bullseye
+
+# Set working directory
 WORKDIR /var/www/html
 
-# Install dependencies secara efisien
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     unzip \
     curl \
+    libpq-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -16,35 +70,55 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     nano \
     mariadb-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Composer dari image resmi
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Fix .so files (ARM)
+RUN set -ex && \
+    for lib in libssl libcrypto libbrotlicommon libbrotlidec libbrotlienc; do \
+        rm -f /lib/aarch64-linux-gnu/${lib}.so || true; \
+        real=$(find /lib/aarch64-linux-gnu/ -name "${lib}.so.*" | sort -V | tail -n1 || true); \
+        if [ -n "$real" ] && [ -f "$real" ]; then \
+            ln -s "$real" "/lib/aarch64-linux-gnu/${lib}.so"; \
+        else \
+            echo "Library $lib not found, skipping symlink"; \
+        fi; \
+    done
 
-# Salin Laravel project (tanpa vendor agar ringan)
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
+
+# Install Redis PHP extension
+RUN pecl install redis && docker-php-ext-enable redis
+
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# ✅ Copy ALL project files first
 COPY . .
 
-# Salin entrypoint.sh ke dalam container dan beri izin eksekusi
+# ✅ THEN install composer dependencies
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Copy entrypoint script and set permission
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Install dependencies dengan Composer
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
+# Set correct permissions for Laravel
+RUN chown -R www-data:www-data /var/www/html && \
+    find /var/www/html -type f -exec chmod 644 {} \; && \
+    find /var/www/html -type d -exec chmod 755 {} \; && \
+    chmod -R ug+rwx /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Pastikan vendor dan cache memiliki izin yang benar
-RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/bootstrap/cache
-
-# Expose PHP-FPM Port
+# Expose PHP-FPM port
 EXPOSE 9000
 
-# Healthcheck untuk memastikan PHP-FPM berjalan
-HEALTHCHECK --interval=30s --timeout=3s \
-    CMD curl -f http://localhost:9000/status || exit 1
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD php-fpm -t || exit 1
 
-# Gunakan entrypoint untuk mengatur izin file
+# Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
