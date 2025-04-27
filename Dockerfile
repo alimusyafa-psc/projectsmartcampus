@@ -115,6 +115,8 @@ COPY . .
 # ✅ THEN install composer dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
+RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/storage /var/www/html/bootstrap/cache
+
 # Copy entrypoint script and set permission
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
