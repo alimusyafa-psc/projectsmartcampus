@@ -31,7 +31,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // PUBLIC ROUTES (GUEST ONLY)
 // ============================
 Route::middleware('guest')->group(function() {
-    Route::get('/sesi', [LoginController::class, 'index'])->name('login');
+    // Ganti name 'login' menjadi 'sesi'
+    Route::get('/sesi', [LoginController::class, 'index'])->name('sesi'); // Nama route diubah
     Route::post('/sesi/login', [LoginController::class, 'login'])->name('login.post');
     Route::view('/branding', 'layouts.branding');
 });
