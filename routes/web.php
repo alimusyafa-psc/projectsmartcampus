@@ -28,7 +28,8 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     Route::get('/tamu', [\App\Http\Controllers\TamusController::class, 'index'])->name('tamu');
     Route::post('/tamu', [\App\Http\Controllers\TamusController::class, 'store'])->name('tamu');
     Route::get('/tamu/create', [\App\Http\Controllers\TamusController::class, 'create'])->name('tamu');
-
+    // Upload Excel (form + submit)
+    Route::post('/tamu/import', [\App\Http\Controllers\TamusController::class, 'importExcel'])->name('tamu.import');
     Route::get('/tamu/path', [\App\Http\Controllers\PathController::class, 'indexPath'])->name('path');
     Route::get('/tamu/path/create', [\App\Http\Controllers\PathController::class, 'createPath'])->name('path');
     Route::post('/tamu/path', [\App\Http\Controllers\PathController::class, 'storePath'])->name('path');
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     Route::get('/datamahasiswa/create', [\App\Http\Controllers\DatamahasiswaController::class, 'create'])->name('datamahasiswa');
     Route::post('/datamahasiswa', [\App\Http\Controllers\DatamahasiswaController::class, 'store'])->name('datamahasiswa');
     Route::delete('/datamahasiswa/{id_mahasiswa}', [\App\Http\Controllers\DatamahasiswaController::class, 'destroy'])->name('datamahasiswa');
+    // Upload Excel (form + submit)
+    Route::post('/datamahasiswa/import', [\App\Http\Controllers\DatamahasiswaController::class, 'importExcel'])->name('datamahasiswa.import');
     Route::get('/jadwal', [\App\Http\Controllers\JadwalController::class, 'index'])->name('jadwal');
     Route::post('/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('jadwal');
     Route::get('/jadwal/create', [\App\Http\Controllers\JadwalController::class, 'create'])->name('jadwal');
