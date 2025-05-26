@@ -18,10 +18,13 @@ mkdir -p /var/www/html/public/assets
 chown -R www-data:www-data /var/www/html/public/assets
 chmod -R 755 /var/www/html/public/assets
 
+composer dump-autoload
+
 # Cache config and routes (recommended in production)
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
+
 
 # Jalankan perintah utama container
 exec "$@"
