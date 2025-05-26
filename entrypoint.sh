@@ -18,15 +18,18 @@ mkdir -p /var/www/html/public/assets
 chown -R www-data:www-data /var/www/html/public/assets
 chmod -R 755 /var/www/html/public/assets
 
-composer require maatwebsite/excel
-composer show maatwebsite/excel
-
-composer dump-autoload
+composer update maatwebsite/excel
 
 # Cache config and routes (recommended in production)
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
+
+composer dump-autoload
+
+composer show maatwebsite/excel
+
+
 
 
 # Jalankan perintah utama container
