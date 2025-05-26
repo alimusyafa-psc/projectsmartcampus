@@ -18,6 +18,7 @@ mkdir -p /var/www/html/public/assets
 chown -R www-data:www-data /var/www/html/public/assets
 chmod -R 755 /var/www/html/public/assets
 
+composer require maatwebsite/excel
 composer update maatwebsite/excel
 
 # Cache config and routes (recommended in production)
