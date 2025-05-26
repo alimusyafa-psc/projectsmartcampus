@@ -1,6 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
+@php
+function formatSizeFromKB($kb) {
+    if ($kb >= 1000000) {
+        return number_format($kb / 1000000, 2) . ' GB';
+    } elseif ($kb >= 1000) {
+        return number_format($kb / 1000, 2) . ' MB';
+    } else {
+        return number_format($kb, 2) . ' KB';
+    }
+}
+@endphp
 <div class="card">
             <div class="card-header pb-0">
               <div class="row">
