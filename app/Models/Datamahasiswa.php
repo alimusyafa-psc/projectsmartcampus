@@ -20,7 +20,7 @@ class Datamahasiswa extends Model
         return $this;
     }
 
-    public function Relay()
+    public function relay()
     {
         return $this->hasOne(Relay::class, 'uid', 'uid')->withDefault(); 
     }
