@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Datamahasiswa;  // <--- tambahkan ini
 
 class Relay extends Model
 {
@@ -22,7 +23,7 @@ class Relay extends Model
     
     public function setDatabaseConnection($connection)
     {
-    $this->setConnection($connection);
-    return $this;
+        $this->setConnection($connection);
+        return $this;
     }
 }

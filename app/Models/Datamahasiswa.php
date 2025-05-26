@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Relay; 
+use App\Models\Relay; // <<-- tambahkan ini
 
 class Datamahasiswa extends Model
 {
