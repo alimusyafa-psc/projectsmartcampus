@@ -14,44 +14,50 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 
-// ============================
-// METRICS
-// ============================
+/*
+|--------------------------------------------------------------------------
+| Public & Guest Routes
+|--------------------------------------------------------------------------
+*/
+
+// Metrics (Prometheus exporter)
 Route::get('/metrics', [MetricsController::class, 'index']);
 
-// ============================
-// AUTH ROUTES (Login & Logout)
-// ============================
+// Login routes
 Route::get('/', [LoginController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// ============================
-// GUEST ONLY ROUTES
-// ============================
+// Guest only
 Route::middleware('guest')->group(function () {
     Route::get('/sesi', [LoginController::class, 'index'])->name('sesi'); // custom login route
     Route::post('/sesi/login', [LoginController::class, 'login'])->name('login.post');
     Route::view('/branding', 'layouts.branding');
 });
 
-// ============================
-// AUTHENTICATED ROUTES
-// ============================
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'isLogin'])->group(function () {
 
-    // SIGNUP ROUTES
+    // Signup (Admin registration)
     Route::get('/sesi/signup', [LoginController::class, 'create'])->name('signup');
     Route::post('/sesi', [LoginController::class, 'store'])->name('signup.post');
 
-    // TAMU ROUTES
+    /*
+    |--------------------------------------------------------------------------
+    | TAMU Routes
+    |--------------------------------------------------------------------------
+    */
     Route::prefix('tamu')->group(function () {
         Route::get('/', [TamusController::class, 'index'])->name('tamu');
         Route::post('/', [TamusController::class, 'store'])->name('tamu.store');
         Route::get('/create', [TamusController::class, 'create'])->name('tamu.create');
         Route::post('/import', [TamusController::class, 'importExcel'])->name('tamu.import');
 
-        // PATH TAMU SUB-ROUTES
+        // Path routes under tamu
         Route::prefix('path')->group(function () {
             Route::get('/', [PathController::class, 'indexPath'])->name('path');
             Route::get('/create', [PathController::class, 'createPath'])->name('path.create');
@@ -60,13 +66,16 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
         });
     });
 
-    // MAHASISWA ROUTES
+    /*
+    |--------------------------------------------------------------------------
+    | Mahasiswa Routes
+    |--------------------------------------------------------------------------
+    */
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswasController::class, 'index'])->name('mahasiswa');
         Route::get('/create', [MahasiswasController::class, 'create'])->name('mahasiswa.create');
     });
 
-    // DATA MAHASISWA ROUTES
     Route::prefix('datamahasiswa')->group(function () {
         Route::get('/', [DatamahasiswaController::class, 'index'])->name('datamahasiswa');
         Route::get('/create', [DatamahasiswaController::class, 'create'])->name('datamahasiswa.create');
@@ -75,7 +84,11 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
         Route::delete('/{id_mahasiswa}', [DatamahasiswaController::class, 'destroy'])->name('datamahasiswa.delete');
     });
 
-    // JADWAL ROUTES
+    /*
+    |--------------------------------------------------------------------------
+    | Jadwal Routes
+    |--------------------------------------------------------------------------
+    */
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('jadwal');
         Route::get('/create', [JadwalController::class, 'create'])->name('jadwal.create');
@@ -83,19 +96,34 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
         Route::delete('/{id_kelas}', [JadwalController::class, 'destroy'])->name('jadwal.delete');
     });
 
-    // STORAGE (ADMIN) ROUTE
+    /*
+    |--------------------------------------------------------------------------
+    | Storage Route
+    |--------------------------------------------------------------------------
+    */
     Route::get('/storage', [StorageController::class, 'index'])->name('storage');
 
-    // PROFILE ROUTES
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Routes
+    |--------------------------------------------------------------------------
+    */
     Route::prefix('profile')->group(function () {
         Route::get('/{id}', [ProfileController::class, 'index'])->name('profile');
         Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
     });
 
-    // DEFAULT HOME ROUTE
+    /*
+    |--------------------------------------------------------------------------
+    | Home (Dashboard)
+    |--------------------------------------------------------------------------
+    */
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
-// DEFAULT LARAVEL AUTH ROUTES (OPTIONAL)
-// If you're using Laravel UI or Breeze, this may not be needed
-Auth::routes();
+/*
+|--------------------------------------------------------------------------
+| Default Laravel Auth Routes
+|--------------------------------------------------------------------------
+*/
+Auth::routes(); // Optional, for Laravel UI/Breeze/etc

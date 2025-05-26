@@ -15,4 +15,16 @@ class VerifyCsrfToken extends Middleware
     //     //
     //   'sesi/login',
     // ];
+
+    protected $except = [
+    'sesi/login',
+    'tamu',
+    'tamu/import',
+    'tamu/path',
+    'datamahasiswa',
+    'datamahasiswa/import',
+    'jadwal',
+    // tambahkan semua endpoint POST yang dipakai di Postman atau frontend JS tanpa token CSRF
+];
+
 }
