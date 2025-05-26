@@ -232,7 +232,7 @@
             <li class="nav-item d-flex align-items-center">
               <form method="POST" action="/logout">
                 @csrf
-                <button type="submit" class="btn btn-primary float-end mt-4">Logout</button>
+                <button type="submit" class="btn btn-danger float-end mt-4">Logout</button>
             </form>
             </li>
           </ul>

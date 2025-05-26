@@ -6,7 +6,7 @@
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Data Akses Tamu</h6>
-              <a href="/tamu/create" class="btn btn-primary float-end">Add</a>
+              <a href="/tamu/create" class="btn btn-primary float-end">Tambah Tamu</a>
               <a href="/tamu/path" class="btn btn-primary float-end me-2">Video Path</a>              
             </div>
             <div class="card-body px-0 pt-0 pb-2">

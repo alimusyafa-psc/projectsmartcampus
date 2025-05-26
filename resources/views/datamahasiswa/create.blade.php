@@ -59,6 +59,21 @@
                         <button type="submit" class="btn btn-primary btn-lg">Simpan Data</button>
                     </div>
                 </form>
+                 </form>
+                <div class="card-header text-white text-center rounded-top">
+                    <h5 class="m-0 pt-0 fw-bold">Import Data Mahasiswa(excel)</h5>
+                </div>
+                <form action="{{ route('datamahasiswa.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-2">
+                        <label for="file_excel" class="form-label fw-semibold">Upload File Excel</label>
+                        <input type="file" name="file" id="file_excel" class="form-control @error('file') is-invalid @enderror" accept=".xlsx,.xls">
+                        @error('file') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">Import Excel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

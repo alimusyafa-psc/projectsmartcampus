@@ -36,9 +36,9 @@ class IsLogin
     protected function hasAccess($user, ?string $routeName): bool
     {
         $accessRules = [
-            'ADMIN' => ['storage', 'datamahasiswa', 'jadwal','mahasiswa','tamu','register','path','profile','profile.update'],
-            'TAMU' => ['storage','tamu','register','path','profile','profile.update'],
-            'MAHASISWA' => ['storage', 'jadwal','datamahasiswa','mahasiswa','register','profile','profile.update']
+            'ADMIN' => ['storage', 'datamahasiswa', 'jadwal','mahasiswa','tamu','register','path','profile','profile.update','datamahasiswa.import','tamu.import'],
+            'TAMU' => ['storage','tamu','register','path','profile','profile.update','tamu.import'],
+            'MAHASISWA' => ['storage', 'jadwal','datamahasiswa','mahasiswa','register','profile','profile.update', 'datamahasiswa.import']
         ];
 
         $role = $user->isAdmin() ? 'ADMIN' : 

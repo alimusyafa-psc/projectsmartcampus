@@ -51,7 +51,7 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
         Route::get('/', [TamusController::class, 'index'])->name('tamu');
         Route::post('/', [TamusController::class, 'store'])->name('tamu.store');
         Route::get('/create', [TamusController::class, 'create'])->name('tamu.create');
-
+        Route::post('/tamu/import', [\App\Http\Controllers\TamusController::class, 'importExcel'])->name('tamu.import');
         // PATH TAMU ROUTES
         Route::prefix('path')->group(function() {
             Route::get('/', [PathController::class, 'indexPath'])->name('path');
@@ -70,6 +70,7 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     // DATA MAHASISWA ROUTES
     Route::prefix('datamahasiswa')->group(function() {
         Route::get('/', [DatamahasiswaController::class, 'index'])->name('datamahasiswa');
+        Route::post('/datamahasiswa/import', [\App\Http\Controllers\DatamahasiswaController::class, 'importExcel'])->name('datamahasiswa.import');
         Route::get('/create', [DatamahasiswaController::class, 'create'])->name('datamahasiswa.create');
         Route::post('/', [DatamahasiswaController::class, 'store'])->name('datamahasiswa.store');
         Route::delete('{id_mahasiswa}', [DatamahasiswaController::class, 'destroy'])->name('datamahasiswa.delete');
