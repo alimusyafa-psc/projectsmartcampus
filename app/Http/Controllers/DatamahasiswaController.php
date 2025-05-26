@@ -14,7 +14,7 @@ class DatamahasiswaController extends Controller
     {
         $tbmahasiswa = (new Datamahasiswa())
             ->setDatabaseConnection('mysql')
-            ->with('relay') // Memuat relasi relay
+            ->with('Relay') // Memuat relasi relay
             ->get();
     
         return view('datamahasiswa.index', compact('tbmahasiswa'));
