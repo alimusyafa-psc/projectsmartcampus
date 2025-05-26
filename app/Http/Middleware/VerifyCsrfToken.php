@@ -11,20 +11,10 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
-    // protected $except = [
-    //     //
-    //   'sesi/login',
-    // ];
-
     protected $except = [
-    'sesi/login',
-    'tamu',
-    'tamu/import',
-    'tamu/path',
-    'datamahasiswa',
-    'datamahasiswa/import',
-    'jadwal',
-    // tambahkan semua endpoint POST yang dipakai di Postman atau frontend JS tanpa token CSRF
-];
+        //
+    //   'sesi/login',
+    ];
+
 
 }
