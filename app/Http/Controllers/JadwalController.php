@@ -16,14 +16,14 @@ class JadwalController extends Controller
 
     public function create()
     {
-        return view('jadwal.form');
+        return view('jadwal.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'kelas' => 'required',
-            'id_kelas' => 'required|unique:mysql.tb_kelas,id_kelas',
+            'id_kelas' => 'required|unique:mysql.tbkelas,id_kelas',
             'mata_kuliah' => 'required',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
