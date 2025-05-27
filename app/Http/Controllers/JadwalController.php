@@ -25,6 +25,8 @@ class JadwalController extends Controller
             'mata_kuliah' => 'required',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
+            'id_kelas' => 'required',
+
         ]);
         try {
             DB::beginTransaction();
@@ -32,6 +34,7 @@ class JadwalController extends Controller
             // Simpan ke database utama
             (new Jadwal())->setDatabaseConnection('mysql')->create([
                 'kelas' => $request->kelas,
+                'id_kelas' => $request->id_kelas,
                 'mata_kuliah' => $request->mata_kuliah,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_selesai' => $request->waktu_selesai,
@@ -40,6 +43,7 @@ class JadwalController extends Controller
             // Simpan ke database kedua
             (new Jadwal())->setDatabaseConnection('db_mahasiswa')->create([
                 'kelas' => $request->kelas,
+                'id_kelas' => $request->id_kelas,
                 'mata_kuliah' => $request->mata_kuliah,
                 'waktu_mulai' => $request->waktu_mulai,
                 'waktu_selesai' => $request->waktu_selesai,
