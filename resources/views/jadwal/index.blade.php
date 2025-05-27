@@ -30,11 +30,7 @@
                         <td>{{ $tbkelas->waktu_mulai}}</td>
                         <td>{{ $tbkelas->waktu_selesai }}</td>
                         <td>
-                          <form action="/jadwal/{{ $tbkelas->id_kelas }}" method="POST">
-                            @method("DELETE")
-                            @csrf
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                          </form>
+                          <a href="/jadwal/{{ $tbkelas->id_kelas }}/edit" class="btn btn-warning">Edit</a>
                         </td>
                     </tr>
                     @endforeach

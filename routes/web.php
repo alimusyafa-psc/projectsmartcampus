@@ -33,7 +33,8 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     Route::get('/tamu/path', [\App\Http\Controllers\PathController::class, 'indexPath'])->name('path');
     Route::get('/tamu/path/create', [\App\Http\Controllers\PathController::class, 'createPath'])->name('path');
     Route::post('/tamu/path', [\App\Http\Controllers\PathController::class, 'storePath'])->name('path');
-    Route::delete('/tamu/path/{id}', [\App\Http\Controllers\PathController::class, 'destroy'])->name('path');
+    Route::get('/tamu/path/{id}/edit', [\App\Http\Controllers\PathController::class, 'editPath'])->name('path.edit');
+    Route::put('/tamu/path/{id}', [\App\Http\Controllers\PathController::class, 'updatePath'])->name('path.update');
 
 
     //MAHASISWA
@@ -46,9 +47,11 @@ Route::middleware(['auth', 'isLogin'])->group(function() {
     // Upload Excel (form + submit)
     Route::post('/datamahasiswa/import', [\App\Http\Controllers\DatamahasiswaController::class, 'importExcel'])->name('datamahasiswa.import');
     Route::get('/jadwal', [\App\Http\Controllers\JadwalController::class, 'index'])->name('jadwal');
-    Route::post('/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('jadwal');
-    Route::get('/jadwal/create', [\App\Http\Controllers\JadwalController::class, 'create'])->name('jadwal');
-    Route::delete('/jadwal/{id_kelas}', [\App\Http\Controllers\JadwalController::class, 'destroy'])->name('jadwal');
+    Route::post('/jadwal', [\App\Http\Controllers\JadwalController::class, 'store'])->name('jadwal.store');
+    Route::get('/jadwal/create', [\App\Http\Controllers\JadwalController::class, 'create'])->name('jadwal.create');
+    Route::get('/jadwal/{id_kelas}/edit', [\App\Http\Controllers\JadwalController::class, 'edit'])->name('jadwal.edit');
+    Route::put('/jadwal/{id_kelas}', [\App\Http\Controllers\JadwalController::class, 'update'])->name('jadwal.update');
+
     //ADMIN
     Route::get('/storage', [\App\Http\Controllers\StorageController::class, 'index'])->name('storage');
     //PROFILE

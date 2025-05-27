@@ -56,29 +56,56 @@ class PathController extends Controller
         return view('tamu.path', compact('videos'));
     }
 
-        public function destroy($id)
-        {
-            try {
-                DB::beginTransaction(); // Mulai transaksi
-        
-                // Hapus dari database utama
-                $videoMain = (new VideoPath())->setDatabaseConnection('second_db')->find($id);
-                if ($videoMain) {
-                    $videoMain->delete();
-                }
-        
-                // Hapus dari database kedua
-                $videoSecond = (new VideoPath())->setDatabaseConnection('db_tamu')->find($id);
-                if ($videoSecond) {
-                    $videoSecond->delete();
-                }
-        
-                DB::commit(); // Commit transaksi jika sukses
-                return redirect('/tamu/path')->with('success', 'Data Path berhasil Dihapus.');
-        
-            } catch (\Exception $e) {
-                DB::rollBack(); // Rollback jika ada kesalahan
-                return redirect('/tamu/path')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-            }
+public function editPath($id)
+{
+    $video = (new VideoPath())->setDatabaseConnection('second_db')->find($id);
+
+    if (!$video) {
+        return redirect('/tamu/path')->with('error', 'Data tidak ditemukan.');
+    }
+
+    return view('tamu.create_path', compact('video')); // Gunakan view yang sama
+}
+
+
+public function updatePath(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required',
+        'path' => 'required',
+        'category' => 'required'
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        // Update di database utama
+        $videoMain = (new VideoPath())->setDatabaseConnection('second_db')->find($id);
+        if ($videoMain) {
+            $videoMain->update([
+                'title' => $request->title,
+                'path' => $request->path,
+                'category' => $request->category,
+            ]);
         }
+
+        // Update di database kedua
+        $videoSecond = (new VideoPath())->setDatabaseConnection('db_tamu')->find($id);
+        if ($videoSecond) {
+            $videoSecond->update([
+                'title' => $request->title,
+                'path' => $request->path,
+                'category' => $request->category,
+            ]);
+        }
+
+        DB::commit();
+        return redirect('/tamu/path')->with('success', 'Path video berhasil diperbarui.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect('/tamu/path')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+    }
+}
+
 }
