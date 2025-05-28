@@ -44,7 +44,7 @@
                         <label for="category" class="form-label fw-semibold">Preference</label>
                         <select class="form-select @error('category') is-invalid @enderror" name="category" id="category">
                             <option disabled {{ isset($video) ? '' : 'selected' }}>Pilih Peran</option>
-                            @foreach(['Tenaga Didik', 'Tenaga Ajar', 'Mahasiswa', 'Tamu Luar'] as $option)
+                            @foreach(['TENAGA DIDIK', 'TENAGA AJAR', 'MAHASISWA', 'TAMU LUAR'] as $option)
                                 <option value="{{ $option }}" {{ (old('category', $video->category ?? '') == $option) ? 'selected' : '' }}>
                                     {{ strtoupper($option) }}
                                 </option>
