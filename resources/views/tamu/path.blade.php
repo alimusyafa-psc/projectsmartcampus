@@ -28,11 +28,7 @@
                       <td>{{ $video->path }}</td>
                       <td>{{ $video->category }}</td>
                       <td>
-                        <form action="/tamu/path/{{ $video->id }}" method="POST">
-                          @method("DELETE")
-                          @csrf
-                          <input type="submit" class="btn btn-danger" value="Delete">
-                        </form>  
+                        <a href="/tamu/path/{{ $video->id }}/edit" class="btn btn-warning">Edit</a>
                       </td>
                     </tr>
                   @endforeach

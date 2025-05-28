@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Jadwal; // Pastikan model diimport
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\DB;
-
 
 class JadwalController extends Controller
 {
@@ -14,72 +13,73 @@ class JadwalController extends Controller
         $tbkelas = (new Jadwal())->setDatabaseConnection('mysql')->get();
         return view('jadwal.index', compact('tbkelas'));
     }
+
     public function create()
     {
         return view('jadwal.create');
     }
+
     public function store(Request $request)
+    {
+        $request->validate([
+            'kelas' => 'required',
+            'id_kelas' => 'required|unique:mysql.tbkelas,id_kelas',
+            'mata_kuliah' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $data = $request->only(['kelas', 'id_kelas', 'mata_kuliah', 'waktu_mulai', 'waktu_selesai']);
+
+            (new Jadwal())->setDatabaseConnection('mysql')->create($data);
+            (new Jadwal())->setDatabaseConnection('db_mahasiswa')->create($data);
+
+            DB::commit();
+            return redirect('/jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('/jadwal/create')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function edit($id_kelas)
+    {
+        $jadwal = (new Jadwal())->setDatabaseConnection('mysql')->findOrFail($id_kelas);
+        return view('jadwal.create', compact('jadwal')); // <== view diubah
+    }
+
+    public function update(Request $request, $id_kelas)
     {
         $request->validate([
             'kelas' => 'required',
             'mata_kuliah' => 'required',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
-            'id_kelas' => 'required',
-
-
         ]);
+
         try {
             DB::beginTransaction();
 
-            // Simpan ke database utama
-            (new Jadwal())->setDatabaseConnection('mysql')->create([
-                'kelas' => $request->kelas,
-                'id_kelas' => $request->id_kelas,
-                'mata_kuliah' => $request->mata_kuliah,
-                'waktu_mulai' => $request->waktu_mulai,
-                'waktu_selesai' => $request->waktu_selesai,
-            ]);
+            $data = $request->only(['kelas', 'mata_kuliah', 'waktu_mulai', 'waktu_selesai']);
 
-            // Simpan ke database kedua
-            (new Jadwal())->setDatabaseConnection('db_mahasiswa')->create([
-                'kelas' => $request->kelas,
-                'id_kelas' => $request->id_kelas,
-                'mata_kuliah' => $request->mata_kuliah,
-                'waktu_mulai' => $request->waktu_mulai,
-                'waktu_selesai' => $request->waktu_selesai,
-            ]);
+            // Update database utama
+            $jadwal1 = (new Jadwal())->setDatabaseConnection('mysql')->findOrFail($id_kelas);
+            $jadwal1->update($data);
+
+            // Update database kedua
+            $jadwal2 = (new Jadwal())->setDatabaseConnection('db_mahasiswa')->find($id_kelas);
+            if ($jadwal2) {
+                $jadwal2->update($data);
+            }
 
             DB::commit();
-            return redirect('/jadwal')->with('success', 'Jadwal berhasil ditambahkan.');
+            return redirect('/jadwal')->with('success', 'Jadwal berhasil diupdate.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect('/datamahasiswa/create')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
-    }
-    public function destroy($id_kelas)
-    {
-
-        try {
-            DB::beginTransaction(); // Mulai transaksi
-
-            // Hapus dari database utama
-            $tbkelas = (new Jadwal())->setDatabaseConnection('mysql')->find($id_kelas);
-            if ($tbkelas) {
-                $tbkelas->delete();
-            }
-
-            // Hapus dari database kedua
-            $tbkelas2 = (new Jadwal())->setDatabaseConnection('db_mahasiswa')->find($id_kelas);
-            if ($tbkelas2) {
-                $tbkelas2->delete();
-            }
-
-            DB::commit(); // Commit transaksi jika sukses
-            return redirect('/jadwal')->with('success', 'Data berhasil Dihapus.');
-        } catch (\Exception $e) {
-            DB::rollBack(); // Rollback jika ada kesalahan
-            return redirect('/jadwal/create')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

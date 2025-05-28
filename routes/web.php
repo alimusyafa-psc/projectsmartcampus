@@ -28,7 +28,7 @@ Route::get('/', [LoginController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Guest only
+// Guest only routes
 Route::middleware('guest')->group(function () {
     Route::get('/sesi', [LoginController::class, 'index'])->name('sesi');
     Route::post('/sesi/login', [LoginController::class, 'login'])->name('login.post');
@@ -62,7 +62,8 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
             Route::get('/', [PathController::class, 'indexPath'])->name('path');
             Route::get('/create', [PathController::class, 'createPath'])->name('path.create');
             Route::post('/', [PathController::class, 'storePath'])->name('path.store');
-            Route::delete('/{id}', [PathController::class, 'destroy'])->name('path.delete');
+            Route::get('/{id}/edit', [PathController::class, 'editPath'])->name('path.edit');
+            Route::put('/{id}', [PathController::class, 'updatePath'])->name('path.update');
         });
     });
 
@@ -91,9 +92,10 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     */
     Route::prefix('jadwal')->group(function () {
         Route::get('/', [JadwalController::class, 'index'])->name('jadwal');
-        Route::get('/create', [JadwalController::class, 'create'])->name('jadwal.create');
         Route::post('/', [JadwalController::class, 'store'])->name('jadwal.store');
-        Route::delete('/{id_kelas}', [JadwalController::class, 'destroy'])->name('jadwal.delete');
+        Route::get('/create', [JadwalController::class, 'create'])->name('jadwal.create');
+        Route::get('/{id_kelas}/edit', [JadwalController::class, 'edit'])->name('jadwal.edit');
+        Route::put('/{id_kelas}', [JadwalController::class, 'update'])->name('jadwal.update');
     });
 
     /*

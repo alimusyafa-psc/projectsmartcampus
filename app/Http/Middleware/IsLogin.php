@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 class IsLogin
 {
@@ -35,36 +35,13 @@ class IsLogin
 
     protected function hasAccess($user, ?string $routeName): bool
     {
-       $accessRules = [
-    'ADMIN' => [
-        'storage',
-        'datamahasiswa', 'datamahasiswa.create', 'datamahasiswa.store', 'datamahasiswa.import', 'datamahasiswa.delete',
-        'mahasiswa', 'mahasiswa.create',
-        'jadwal', 'jadwal.create', 'jadwal.store', 'jadwal.delete',
-        'tamu', 'tamu.create', 'tamu.store', 'tamu.import',
-        'path', 'path.create', 'path.store', 'path.delete',
-        'profile', 'profile.update',
-        'signup', 'signup.post'
-    ],
-    'TAMU' => [
-        'storage',
-        'tamu', 'tamu.create', 'tamu.store', 'tamu.import',
-        'path', 'path.create', 'path.store', 'path.delete',
-        'profile', 'profile.update',
-    ],
-    'MAHASISWA' => [
-        'storage',
-        'datamahasiswa', 'datamahasiswa.create', 'datamahasiswa.store', 'datamahasiswa.import',
-        'mahasiswa', 'mahasiswa.create',
-        'jadwal', 'jadwal.create', 'jadwal.store', 'jadwal.delete',
-        'profile', 'profile.update',
-    ],
-];
+        $accessRules = [
+            'ADMIN' => ['storage', 'datamahasiswa', 'jadwal', 'jadwal.store', 'jadwal.create', 'jadwal.edit', 'jadwal.update', 'mahasiswa', 'tamu', 'register', 'path', 'profile', 'profile.update', 'datamahasiswa.import', 'tamu.import', 'path.edit', 'path.update'],
+            'TAMU' => ['storage', 'tamu', 'register', 'path', 'profile', 'profile.update', 'tamu.import', 'path.edit', 'path.update'],
+            'MAHASISWA' => ['storage', 'jadwal', 'datamahasiswa', 'mahasiswa', 'register', 'profile', 'profile.update', 'datamahasiswa.import', 'jadwal.store', 'jadwal.create', 'jadwal.edit', 'jadwal.update']
+        ];
 
-
-        $role = $user->isAdmin() ? 'ADMIN' : 
-               ($user->isTamu() ? 'TAMU' : 
-               ($user->isMahasiswa() ? 'MAHASISWA' : null));
+        $role = $user->isAdmin() ? 'ADMIN' : ($user->isTamu() ? 'TAMU' : ($user->isMahasiswa() ? 'MAHASISWA' : null));
 
         return in_array($routeName, $accessRules[$role] ?? []);
     }

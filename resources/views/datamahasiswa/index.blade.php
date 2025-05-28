@@ -20,8 +20,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NRP</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kelas</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Relay</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-                      <th class="text-secondary opacity-7"></th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -32,13 +31,7 @@
                         <td>{{ $mahasiswa->nrp }}</td>
                         <td>{{ $mahasiswa->kelas }}</td>
                         <td>{{ $mahasiswa->relay->relay ?? 'Tidak ada relay' }}</td>
-                        <td>
-                          <form action="/datamahasiswa/{{ $mahasiswa->id_mahasiswa }}" method="POST">
-                            @method("DELETE")
-                            @csrf
-                            <input type="submit" class="btn btn-danger" value="Delete">
-                          </form>           
-                        </td>
+                 
                     </tr>
                     @endforeach
                   </tbody>
