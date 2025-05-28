@@ -24,6 +24,11 @@
                         <input name="kelas" type="text" class="form-control @error('kelas') is-invalid @enderror" id="kelas" placeholder="Nama Kelas">
                         @error('kelas') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
+                     <div class="mb-2">
+                        <label for="id_kelas" class="form-label fw-semibold">ID Kelas</label>
+                        <input name="id_kelas" type="text" class="form-control @error('id_kelas') is-invalid @enderror" id="id_kelas" placeholder="ID Kelas">
+                        @error('id_kelas') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                    </div>
 
                     <div class="mb-2">
                         <label for="mata_kuliah" class="form-label fw-semibold">Mata Kuliah</label>
