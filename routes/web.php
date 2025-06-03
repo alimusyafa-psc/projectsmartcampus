@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
-// Controllers
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Metrics\MetricsController;
 use App\Http\Controllers\TamusController;
 use App\Http\Controllers\PathController;
 use App\Http\Controllers\MahasiswasController;
@@ -15,90 +12,98 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 
-// ==================
-// Public Routes
-// ==================
-Route::get('/metrics', [MetricsController::class, 'index']);
-Route::get('/', [LoginController::class, 'index']);
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+/*
+|--------------------------------------------------------------------------
+| Public Routes (Guest Only)
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('guest')->group(function () {
-    Route::get('/sesi', [LoginController::class, 'index'])->name('login');
-    Route::post('/sesi/login', [LoginController::class, 'login'])->name('login.post');
-
-    Route::get('/branding', function () {
-        return view('layouts.branding');
-    });
+    Route::get('/', [LoginController::class, 'index'])->name('login');
+    Route::get('/login', [LoginController::class, 'index']);
+    Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+    Route::get('/branding', fn() => view('layouts.branding'))->name('branding');
 });
 
-// ==================
-// Authenticated Routes
-// ==================
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'isLogin'])->group(function () {
 
-    // Auth & Register
+    // Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    // Register
     Route::get('/sesi/signup', [LoginController::class, 'create'])->name('register');
     Route::post('/sesi', [LoginController::class, 'store'])->name('register.store');
 
-    // Tamu
-    Route::prefix('tamu')->name('tamu.')->group(function () {
-        Route::get('/', [TamusController::class, 'index'])->name('index');
-        Route::post('/', [TamusController::class, 'store'])->name('store');
-        Route::get('/create', [TamusController::class, 'create'])->name('create');
-        Route::post('/import', [TamusController::class, 'importExcel'])->name('import');
+    /*
+    |--------------------------------------------------------------------------
+    | TAMU Section
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('tamu')->group(function () {
+        Route::get('/', [TamusController::class, 'index'])->name('tamu.index');
+        Route::get('/create', [TamusController::class, 'create'])->name('tamu.create');
+        Route::post('/', [TamusController::class, 'store'])->name('tamu.store');
 
-        // Path (related to tamu)
-        Route::prefix('path')->name('path.')->group(function () {
-            Route::get('/', [PathController::class, 'indexPath'])->name('index');
-            Route::get('/create', [PathController::class, 'createPath'])->name('create');
-            Route::post('/', [PathController::class, 'storePath'])->name('store');
-            Route::get('/{id}/edit', [PathController::class, 'editPath'])->name('edit');
-            Route::put('/{id}', [PathController::class, 'updatePath'])->name('update');
+        // PATH Sub-Module
+        Route::prefix('path')->group(function () {
+            Route::get('/', [PathController::class, 'indexPath'])->name('path.index');
+            Route::get('/create', [PathController::class, 'createPath'])->name('path.create');
+            Route::post('/', [PathController::class, 'storePath'])->name('path.store');
+            Route::delete('/{id}', [PathController::class, 'destroy'])->name('path.destroy');
         });
     });
 
-    // Mahasiswa
-    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-        Route::get('/', [MahasiswasController::class, 'index'])->name('index');
-        Route::get('/create', [MahasiswasController::class, 'create'])->name('create');
+    /*
+    |--------------------------------------------------------------------------
+    | MAHASISWA Section
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('mahasiswa')->group(function () {
+        Route::get('/', [MahasiswasController::class, 'index'])->name('mahasiswa.index');
+        Route::get('/create', [MahasiswasController::class, 'create'])->name('mahasiswa.create');
     });
 
-    Route::prefix('datamahasiswa')->name('datamahasiswa.')->group(function () {
-        Route::get('/', [DatamahasiswaController::class, 'index'])->name('index');
-        Route::get('/create', [DatamahasiswaController::class, 'create'])->name('create');
-        Route::post('/', [DatamahasiswaController::class, 'store'])->name('store');
-        Route::delete('/{id_mahasiswa}', [DatamahasiswaController::class, 'destroy'])->name('destroy');
-        Route::post('/import', [DatamahasiswaController::class, 'importExcel'])->name('import');
+    Route::prefix('datamahasiswa')->group(function () {
+        Route::get('/', [DatamahasiswaController::class, 'index'])->name('datamahasiswa.index');
+        Route::get('/create', [DatamahasiswaController::class, 'create'])->name('datamahasiswa.create');
+        Route::post('/', [DatamahasiswaController::class, 'store'])->name('datamahasiswa.store');
+        Route::delete('/{id_mahasiswa}', [DatamahasiswaController::class, 'destroy'])->name('datamahasiswa.destroy');
     });
 
-    // Jadwal
-    Route::prefix('jadwal')->name('jadwal.')->group(function () {
-        Route::get('/', [JadwalController::class, 'index'])->name('index');
-        Route::get('/create', [JadwalController::class, 'create'])->name('create');
-        Route::post('/', [JadwalController::class, 'store'])->name('store');
-        Route::get('/{id_kelas}/edit', [JadwalController::class, 'edit'])->name('edit');
-        Route::put('/{id_kelas}', [JadwalController::class, 'update'])->name('update');
+    Route::prefix('jadwal')->group(function () {
+        Route::get('/', [JadwalController::class, 'index'])->name('jadwal.index');
+        Route::get('/create', [JadwalController::class, 'create'])->name('jadwal.create');
+        Route::post('/', [JadwalController::class, 'store'])->name('jadwal.store');
+        Route::delete('/{id_kelas}', [JadwalController::class, 'destroy'])->name('jadwal.destroy');
     });
 
-    // Storage
-    Route::get('/storage', [StorageController::class, 'index'])->name('storage');
+    /*
+    |--------------------------------------------------------------------------
+    | Admin and Profile
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/storage', [StorageController::class, 'index'])->name('storage.index');
 
-    // Profile
-    Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/{id}', [ProfileController::class, 'index'])->name('index');
-        Route::patch('/{id}', [ProfileController::class, 'update'])->name('update');
+    Route::prefix('profile')->group(function () {
+        Route::get('/{id}', [ProfileController::class, 'index'])->name('profile.index');
+        Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
     });
 
-    // Dashboard / Home
+    // Home
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    // Default Auth routes
-    Auth::routes();
 });
 
-
-
+/*
+|--------------------------------------------------------------------------
+| Default Laravel Auth Routes
+|--------------------------------------------------------------------------
+*/
+Auth::routes();
 
 
 
