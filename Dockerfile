@@ -195,8 +195,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY composer.json composer.lock ./
 
 # Run composer update and install production dependencies
-RUN  composer install  --no-dev  --prefer-dist --no-interaction --no-progress && \
-    composer update  --no-dev --prefer-dist --no-interaction --no-progress
+RUN  composer install  --no-dev  --prefer-dist --no-interaction --no-progress 
 
 
 # Copy the full Laravel project
