@@ -149,6 +149,8 @@
 # # Entrypoint
 # ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["php-fpm", "-R"]
+
+
 FROM php:8.2-fpm-bullseye
 
 # Set working directory
@@ -195,6 +197,7 @@ COPY composer.json composer.lock ./
 # Run composer update and install production dependencies
 RUN  composer install  --no-dev  --prefer-dist --no-interaction --no-progress && \
     composer update  --no-dev --prefer-dist --no-interaction --no-progress
+
 
 # Copy the full Laravel project
 COPY . .
