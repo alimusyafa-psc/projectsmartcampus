@@ -21,12 +21,22 @@ chmod -R 755 /var/www/html/public/assets
 # composer require maatwebsite/excel
 # composer update maatwebsite/excel
 
-# Cache config and routes (recommended in production)
+# # Cache config and routes (recommended in production)
+# php artisan config:cache
+# php artisan route:cache
+# php artisan view:cache
+
+# composer dump-autoload
+
+# Clear cache dulu untuk menghindari error jika ada service provider yang hilang
+php artisan config:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
+
+# Cache ulang untuk production
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-
-composer dump-autoload
 
 # composer show maatwebsite/excel
 
