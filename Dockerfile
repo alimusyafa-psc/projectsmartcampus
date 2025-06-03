@@ -199,7 +199,7 @@ COPY . .
 COPY composer.json composer.lock ./
 
 # Run composer update and install production dependencies
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
+RUN composer install --prefer-dist --no-interaction --no-progress
 
 
 # Optimize autoload
