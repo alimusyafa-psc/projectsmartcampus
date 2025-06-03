@@ -64,7 +64,9 @@ HEALTHCHECK --interval=30s --timeout=3s \
 
 # Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
-# CMD ["php-fpm", "-R"]
+CMD ["php-fpm", "-R"]
+
+
 
 # FROM php:8.2-fpm-bullseye
 
