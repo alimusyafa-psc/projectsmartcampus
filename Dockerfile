@@ -115,7 +115,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY composer.json composer.lock ./
 
 # ✅ Install composer dependencies (including maatwebsite/excel)
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scripts
+RUN composer install --prefer-dist --no-interaction --no-progress --no-scripts
 
 # ✅ Copy ALL project files
 COPY . .
