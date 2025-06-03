@@ -27,6 +27,7 @@ chmod -R 755 /var/www/html/public/assets
 # php artisan view:cache
 
 # composer dump-autoload
+composer require nunomaduro/collision --dev
 
 # Clear cache dulu untuk menghindari error jika ada service provider yang hilang
 php artisan config:clear || true
