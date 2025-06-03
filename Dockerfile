@@ -170,15 +170,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     nano \
     mariadb-client \
-    netcat \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Fix .so symlinks for ARM compatibility
+# Fix .so files (ARM)
 RUN set -ex && \
     for lib in libssl libcrypto libbrotlicommon libbrotlidec libbrotlienc; do \
         rm -f /lib/aarch64-linux-gnu/${lib}.so || true; \
         real=$(find /lib/aarch64-linux-gnu/ -name "${lib}.so.*" | sort -V | tail -n1 || true); \
-        [ -n "$real" ] && ln -s "$real" "/lib/aarch64-linux-gnu/${lib}.so" || echo "Library $lib not found, skipping"; \
+        if [ -n "$real" ] && [ -f "$real" ]; then \
+            ln -s "$real" "/lib/aarch64-linux-gnu/${lib}.so"; \
+        else \
+            echo "Library $lib not found, skipping symlink"; \
+        fi; \
     done
 
 # Install PHP extensions
@@ -188,40 +191,34 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 # Install Redis PHP extension
 RUN pecl install redis && docker-php-ext-enable redis
 
-# Install Composer
+# Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy the full Laravel project
+# ✅ Copy ALL project files first
 COPY . .
 
+# ✅ THEN install composer dependencies
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Copy only composer files (cache optimization)
-COPY composer.json composer.lock ./
+RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Run composer update and install production dependencies
-RUN composer install --prefer-dist --no-interaction --no-progress
+# Copy entrypoint script and set permission
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-
-# Optimize autoload
-RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
-
-# Fix Laravel permissions
+# Set correct permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html && \
     find /var/www/html -type f -exec chmod 644 {} \; && \
     find /var/www/html -type d -exec chmod 755 {} \; && \
     chmod -R ug+rwx /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copy and make entrypoint executable
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Expose FPM port
+# Expose PHP-FPM port
 EXPOSE 9000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD php-fpm -t || exit 1
 
-# Entrypoint and default command
+# Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
