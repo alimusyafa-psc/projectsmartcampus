@@ -149,7 +149,6 @@
 # # Entrypoint
 # ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["php-fpm", "-R"]
-
 FROM php:8.2-fpm-bullseye
 
 # Set working directory
@@ -172,7 +171,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     netcat \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Fix .so symlinks (ARM compatibility)
+# Fix .so symlinks for ARM compatibility
 RUN set -ex && \
     for lib in libssl libcrypto libbrotlicommon libbrotlidec libbrotlienc; do \
         rm -f /lib/aarch64-linux-gnu/${lib}.so || true; \
@@ -184,41 +183,42 @@ RUN set -ex && \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
     docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mbstring zip
 
-# Install Redis extension
+# Install Redis PHP extension
 RUN pecl install redis && docker-php-ext-enable redis
 
-# Install Composer globally
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy only composer files first for layer cache optimization
+# Copy only composer files (cache optimization)
 COPY composer.json composer.lock ./
 
-# Install dependencies without dev (for production)
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --no-scripts
+# Run composer update and install production dependencies
+RUN composer update --no-dev --prefer-dist --no-interaction --no-progress && \
+    composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-# Copy the rest of the project
+# Copy the full Laravel project
 COPY . .
 
-# OPTIONAL: Run post-autoload dump if needed
+# Optimize autoload
 RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
 
-# Set proper permissions
+# Fix Laravel permissions
 RUN chown -R www-data:www-data /var/www/html && \
     find /var/www/html -type f -exec chmod 644 {} \; && \
     find /var/www/html -type d -exec chmod 755 {} \; && \
     chmod -R ug+rwx /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copy entrypoint and make it executable
+# Copy and make entrypoint executable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Expose PHP-FPM port
+# Expose FPM port
 EXPOSE 9000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD php-fpm -t || exit 1
 
-# Entrypoint and command
+# Entrypoint and default command
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm", "-R"]
