@@ -191,16 +191,16 @@ RUN pecl install redis && docker-php-ext-enable redis
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Copy the full Laravel project
+COPY . .
+
+
 # Copy only composer files (cache optimization)
 COPY composer.json composer.lock ./
 
 # Run composer update and install production dependencies
 RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
-
-
-# Copy the full Laravel project
-COPY . .
 
 # Optimize autoload
 RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
