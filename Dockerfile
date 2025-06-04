@@ -202,12 +202,6 @@ RUN composer install --no-dev --prefer-dist --no-interaction --no-progress
 
 RUN chown -R www-data:www-data /var/www/html/vendor /var/www/html/storage /var/www/html/bootstrap/cache
 
-# ✅ Configure PHP-FPM to listen on all interfaces (FIX FOR 502 ERROR)
-RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf && \
-    echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/www.conf && \
-    echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/www.conf && \
-    echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/www.conf
-    
 # Copy entrypoint script and set permission
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
