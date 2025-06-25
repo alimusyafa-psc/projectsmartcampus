@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+
 class TamusController extends Controller
 {
     public function index()
@@ -16,10 +17,10 @@ class TamusController extends Controller
         $riwayatTamu = RiwayatTamu::with('tamu')
             ->orderBy('id', 'desc')
             ->paginate(10);
-    
+
         return view('tamu.index', compact('riwayatTamu'));
     }
-    
+
     public function create()
     {
         return view('tamu.create');
@@ -28,8 +29,8 @@ class TamusController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['last_visit'] = now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s');    
-    
+        $data['last_visit'] = now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+
         $request->validate([
             'name' => 'required',
             'asal' => 'required',
@@ -47,18 +48,19 @@ class TamusController extends Controller
             'last_visit' => $data['last_visit'],
         ]);
 
-        // TamuPost::create([
-        //     'name' => $request->name,
-        //     'asal' => $request->asal,
-        //     'rfid' => $request->rfid,
-        //     'pekerjaan' => $request->pekerjaan,
-        //     'preferences' => $request->preferences,
-        //     'last_visit' => $data['last_visit'],
-        // ]);
+        TamuPost::create([
+            'name' => $request->name,
+            'asal' => $request->asal,
+            'rfid' => $request->rfid,
+            'pekerjaan' => $request->pekerjaan,
+            'preferences' => $request->preferences,
+            'last_visit' => $data['last_visit'],
+        ]);
 
         return redirect('/tamu')->with('success', 'Data Berhasil Ditambahkan.');
     }
-       public function importExcel(Request $request)
+
+    public function importExcel(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
@@ -105,7 +107,7 @@ class TamusController extends Controller
 
                     // Jika belum berhasil, coba format string
                     if (!$last_visit) {
-                        $dateFormats = ['d/m/Y','Y/m/d'];
+                        $dateFormats = ['d/m/Y', 'Y/m/d'];
 
                         foreach ($dateFormats as $format) {
                             $date = \DateTime::createFromFormat($format, $row[5]);
@@ -130,7 +132,6 @@ class TamusController extends Controller
                     if (!$last_visit) {
                         throw new \Exception("Format tanggal tidak valid: " . $row[5]);
                     }
-
                 } catch (\Exception $e) {
                     throw new \Exception("Error parsing tanggal pada baris " . ($index + 1) . ": " . $e->getMessage());
                 }
@@ -158,11 +159,9 @@ class TamusController extends Controller
 
             DB::commit();
             return back()->with('success', 'Data berhasil diimport dari Excel.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal import: ' . $e->getMessage());
         }
     }
-
 }

@@ -15,7 +15,7 @@ class PrometheusProvider extends ServiceProvider
     {
         $this->app->singleton(CollectorRegistry::class, function () {
             return new CollectorRegistry(new Redis([
-                'host' => 'redis',
+                'host' => '127.0.0.1',
                 'port' => 6379,
                 'timeout' => 0.1,
                 'read_timeout' => 10,

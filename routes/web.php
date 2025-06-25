@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Metrics\MetricsController;
 
+
 Route::get('/metrics', [MetricsController::class, 'index']);
+
+
 Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login');
 Route::get('/', [\App\Http\Controllers\LoginController::class, 'index']);
 // Logout harus method POST
