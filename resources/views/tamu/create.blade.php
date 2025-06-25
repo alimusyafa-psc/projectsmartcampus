@@ -54,12 +54,10 @@
                         </select>
                         @error('preferences') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
-
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">Simpan Data</button>
                     </div>
                 </form>
-                        </form>
                 <div class="card-header text-white text-center rounded-top">
                     <h5 class="m-0 pt-0 fw-bold">Import Data Tamu (excel)</h5>
                 </div>
