@@ -1,6 +1,3 @@
-Baik, saya bantu buatkan draft README untuk repo Anda yang menjelaskan keseluruhan arsitektur sistem (CBIS dengan ALB Round Robin, Grafana + Prometheus monitoring, Redis cache, edge computing + IoT device, serta tampilan web login & dashboard). README ini bisa Anda taruh di repo GitHub `projectsmartcampus` pada branch `alb`.
-
-Berikut draft-nya:
 
 ---
 
