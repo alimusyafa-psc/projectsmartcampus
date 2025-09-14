@@ -47,11 +47,13 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
 
 ### 🔐 Halaman Login
 
-![Login Page](docs/screenshots/login.png)
+![Dashboard Page](public/img/websitelogin.png)
+
 
 ### 📈 Dashboard Utama
 
-![Dashboard Page](public/img/websittedashboard.jpg)
+![Dashboard Page](public/img/websitedashboard.jpg)
+
 
 ---
 
