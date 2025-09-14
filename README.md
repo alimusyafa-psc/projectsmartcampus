@@ -33,17 +33,35 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
 
 ---
 
+
 ## 🏗️ Arsitektur Sistem
 
 ### 1. **Arsitektur Keseluruhan**
-![Arsitektur Keseluruhan ](public/img/arsitektursistem.png)
 
+![Arsitektur Keseluruhan](public/img/arsitektursistem.png)
 
+Arsitektur ini mengintegrasikan **private cloud** dengan **edge computing** untuk mendukung aplikasi web dashboard CBIS.
 
+* **Client** mengakses aplikasi melalui jaringan privat.
+* **Nginx Load Balancer** mendistribusikan traffic ke tiga **web server** (App 1, App 2, App 3) menggunakan metode **round robin**.
+* Ketiga web server terhubung ke **MySQL Database** untuk menjaga konsistensi dan integritas data.
+* **Edge Computing + IoT (RFID)** memproses data secara real-time pada **MySQL Edge Device** dan menampilkannya di perangkat visualisasi (misalnya TV), sehingga latensi berkurang dan kinerja sistem meningkat.
+
+---
 
 ### 2. **Arsitektur Monitoring**
-![Arsitektur Monitoring ](public/img/arsitekturmonitoring.png)
 
+![Arsitektur Monitoring](public/img/arsitekturmonitoring.png)
+
+Arsitektur monitoring mendukung **ketersediaan, skalabilitas, dan observabilitas** sistem:
+
+* **Prometheus** mengumpulkan metrik dari aplikasi Laravel, Redis, MySQL, dan load balancer.
+* **Grafana** menampilkan metrik dalam dashboard (Load Balancer, Non Load Balancer, IoT Edge).
+* **Edge Computing** mengirim data IoT (RFID) untuk dipantau secara real-time.
+
+Integrasi ini memastikan sistem tetap **handal, efisien, dan adaptif** terhadap beban operasional yang dinamis.
+
+---
 
 ## 📊 Tampilan Aplikasi
 
