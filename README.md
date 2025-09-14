@@ -51,7 +51,7 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
 
 ### 📈 Dashboard Utama
 
-![Dashboard Page](docs/screenshots/dashboard.png)
+![Dashboard Page](public/img/websittedashboard.jpg)
 
 ---
 
