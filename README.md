@@ -36,11 +36,13 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
 ## 🏗️ Arsitektur Sistem
 
 ### 1. **Arsitektur Keseluruhan**
+![Arsitektur Keseluruhan ](public/img/arsitektursistem.png)
+
 
 
 
 ### 2. **Arsitektur Monitoring**
-
+![Arsitektur Monitoring ](public/img/arsitekturmonitoring.png)
 
 
 ## 📊 Tampilan Aplikasi
