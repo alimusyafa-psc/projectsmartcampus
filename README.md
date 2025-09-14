@@ -33,30 +33,6 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
   * Streaming data ke dashboard secara real-time
   * Visualisasi di perangkat display (TV, panel, dll.)
 
----
-
-## 🏗️ Arsitektur Sistem
-
-### 1. **Arsitektur Keseluruhan**
-
-
-### 2. **Arsitektur Monitoring**
-
-
-
----
-
-## 📊 Tampilan Aplikasi
-
-### 🔐 Halaman Login
-
-![Login Page](docs/screenshots/login.png)
-
-### 📈 Dashboard Utama
-
-![Dashboard Page](docs/screenshots/dashboard.png)
-
----
 
 ## ⚙️ Teknologi yang Digunakan
 
