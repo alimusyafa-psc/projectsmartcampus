@@ -95,7 +95,6 @@ Selain itu, sistem ini terintegrasi dengan **Edge Computing** dan **IoT devices*
 
 * Pastikan **Docker** dan **Docker Compose** sudah terinstal.
 * Gunakan **environment file (.env)** untuk konfigurasi database, cache, dan monitoring.
-* Dokumentasi tambahan tersedia pada folder `docs/`.
 
 ---
 
@@ -105,4 +104,3 @@ Proyek ini dikembangkan untuk kebutuhan **Smart Campus CBIS** dan bersifat open 
 
 ---
 
-Apakah Anda ingin saya sertakan juga **contoh struktur folder repo** (misalnya `app/`, `nginx/`, `grafana/`, `prometheus/`, `docs/`) di README supaya lebih jelas buat user yang baru buka repo?
